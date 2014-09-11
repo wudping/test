@@ -16,7 +16,21 @@
 #define ERROR_MSG(msg) \
     { \
         std::cerr << "error in " << __FILE__ << " , " << __LINE__ << " msg: " << msg << std::endl; \
+        assert(false); \
     }
+
+
+
+/*****************************************************
+    examaple data
+******************************************************/
+struct  ExampleData
+{
+    int             ID;
+    std::string     Name;
+    int             Age;
+    double          Height;
+};
 
 
 
@@ -34,15 +48,17 @@ public:
     SQLiteControl();
     ~SQLiteControl();
     
-    void    init_db( std::string _db_name );
-    void    init_db_table();
+    void            create_db( std::string _db_name );
+    void            create_table();
+    void            write_data( const ExampleData& data );
+    ExampleData     read_data( int start, int end );
     
 };
 
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void    log_message( char *msg );
+void    log_message( char const *msg );
 
 
 

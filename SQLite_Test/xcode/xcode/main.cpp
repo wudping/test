@@ -16,9 +16,17 @@ int main(int argc, const char * argv[])
 
     SQLiteControl   sqc;
     
-    sqc.init_db( "test" );
-    sqc.init_db_table();
+    sqc.create_db( "test" );
+    sqc.create_table();
+    
+    ExampleData     data;
+    data.Name       =   "Peter";
+    data.Age        =   31;
+    data.Height     =   452.441;
 
+    sqc.write_data( data );
+    
+    sqc.read_data( 1, 5 );
     
     return 0;
 }
