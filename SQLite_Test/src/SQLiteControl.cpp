@@ -57,15 +57,3 @@ void    SQLiteControl::init_db( std::string _db_name )
 
 
 
-
-
-
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void    error_msg( char* msg, char* file, char* line )
-{
-    std::cerr << " "
-}
-
-
-
