@@ -10,6 +10,7 @@
 #define SQLITE_CONTROL_H
 
 #include <string>
+#include <sqlite3.h>
 
 
 #define ERROR_MSG(msg) \
@@ -27,18 +28,22 @@ class   SQLiteControl
 {
 private:
     std::string     db_name;
+    sqlite3         *db;
     
 public:
     SQLiteControl();
     ~SQLiteControl();
     
     void    init_db( std::string _db_name );
+    void    init_db_table();
     
 };
 
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void    log_message( char *msg );
+
 
 
 #endif

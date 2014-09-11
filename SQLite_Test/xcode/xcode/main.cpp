@@ -17,11 +17,8 @@ int main(int argc, const char * argv[])
     SQLiteControl   sqc;
     
     sqc.init_db( "test" );
-    
-    FILE *p = fopen("thisatest.txt","a+");
-    fprintf( p, "this is a test.!!");
-    fclose(p);
-    
+    sqc.init_db_table();
+
     
     return 0;
 }
