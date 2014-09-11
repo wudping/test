@@ -7,15 +7,22 @@
 //
 
 #include <iostream>
-
+#include <stdio.h>
 #include <SQLiteControl.h>
 
 
 int main(int argc, const char * argv[])
 {
 
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    SQLiteControl   sqc;
+    
+    sqc.init_db( "test" );
+    
+    FILE *p = fopen("thisatest.txt","a+");
+    fprintf( p, "this is a test.!!");
+    fclose(p);
+    
+    
     return 0;
 }
 

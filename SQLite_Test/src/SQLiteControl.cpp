@@ -21,6 +21,7 @@
     Constructor
 ******************************************************/
 SQLiteControl::SQLiteControl()
+    :   db(NULL)
 {}
 
 
@@ -43,7 +44,9 @@ void    SQLiteControl::init_db( std::string _db_name )
     if( db_name.empty() )
     {
         db_name     =   _db_name;
+        db_name.append( ".db" );
         // create db file
+        sqlite3_open( db_name.c_str(), &db );
     }
     else
     {
@@ -61,11 +64,6 @@ void    SQLiteControl::init_db( std::string _db_name )
 
 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void    error_msg( char* msg, char* file, char* line )
-{
-    std::cerr << " "
-}
 
 
 
