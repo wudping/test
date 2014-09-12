@@ -36,6 +36,27 @@ SQLiteControl::~SQLiteControl()
 
 
 
+/*****************************************************
+    clear_db
+******************************************************/
+void	SQLiteControl::clear_db()
+{
+	char	*errmsg		=	NULL;
+
+	std::stringstream	ss;
+
+	ss << "delete from test_table;";
+
+	int		res		=	sqlite3_exec( db, ss.str().c_str(), NULL, NULL, &errmsg );
+
+	if( res != SQLITE_OK ) {
+ 		ERROR_MSG( errmsg );
+	} else {
+		log_message( 5, "clear all success." );
+	}
+}
+
+
 
 /*****************************************************
     init_db
@@ -78,7 +99,7 @@ void    SQLiteControl::create_table()
        << "Age INTEGER,"
        << "Height REAL);" ;
     
-    log_message( ss.str().c_str() );
+    log_message( 1, ss.str().c_str() );
     
     int     res;
     char    *errmsg =   NULL;
@@ -115,7 +136,7 @@ void    SQLiteControl::write_data( const ExampleData& data )
        << data.Age << ","
        << data.Height << ");" ;
     
-    log_message( ss.str().c_str() );
+    log_message( 1, ss.str().c_str() );
     
     int     res;
     char    *err    =   NULL;
@@ -125,69 +146,164 @@ void    SQLiteControl::write_data( const ExampleData& data )
     if( res != SQLITE_OK ) {
         ERROR_MSG( err );
     } else {
-        log_message( "write data success!" );
-    }
-    
+        log_message( 1, "write data success!" );
+    }    
 }
 
 
+
 /*****************************************************
-    read_data
+    get_data
 ******************************************************/
-ExampleData     SQLiteControl::read_data( int start, int end )
+ExampleData		SQLiteControl::get_data( sqlite3_stmt *stmt )
+{
+    ExampleData     data;
+
+    data.ID     =   sqlite3_column_int( stmt, 0 );
+    data.Name   =   (char*)sqlite3_column_text( stmt, 1 );
+    data.Age    =   sqlite3_column_int( stmt, 2 );
+    data.Height =   sqlite3_column_double( stmt, 3 );
+    
+    //std::cout << "ID = " << data.ID << " Name = " << data.Name << " Age = " << data.Age
+    //          << " Height = " << data.Height << std::endl;
+
+	return	data;
+}
+
+
+
+
+/*****************************************************
+    get_min_ID
+******************************************************/
+int		SQLiteControl::get_min_ID()
+{
+	if( db == NULL )
+	{
+		ERROR_MSG("no db");
+		return	0;
+	}
+
+	int		res;
+	int		result	=	0;
+
+	std::stringstream	ss;
+	ss << "select min(ID) from test_table;";
+
+	sqlite3_stmt	*stmt	=	NULL;
+
+	res		=	sqlite3_prepare( db, ss.str().c_str(), -1, &stmt, NULL );
+
+	if( res != SQLITE_OK )
+	{
+		ERROR_MSG( "get db_count error" );
+		return	0;
+	}
+
+	res		=	sqlite3_step( stmt );
+
+	if( res == SQLITE_ROW ) {
+		result	=	sqlite3_column_int( stmt, 0 );
+	} else {
+		ERROR_MSG("get db count fail.");
+		result	=	0;
+	}
+
+	return	result;
+}
+
+
+
+/*****************************************************
+    db_count
+******************************************************/
+int		SQLiteControl::get_db_count()
+{
+	if( db == NULL )
+	{
+		ERROR_MSG("no db");
+		return	0;
+	}
+
+	int		res;
+	int		result	=	0;
+
+	std::stringstream	ss;
+	ss << "select count(*) from test_table;";
+
+	sqlite3_stmt	*stmt	=	NULL;
+
+	res		=	sqlite3_prepare( db, ss.str().c_str(), -1, &stmt, NULL );
+
+	if( res != SQLITE_OK )
+	{
+		ERROR_MSG( "get db_count error" );
+		return	0;
+	}
+
+	res		=	sqlite3_step( stmt );
+
+	if( res == SQLITE_ROW ) {
+		result	=	sqlite3_column_int( stmt, 0 );
+	} else {
+		ERROR_MSG("get db count fail.");
+		result	=	0;
+	}
+
+	return	result;
+}
+
+
+
+/*****************************************************
+    read_data_range
+******************************************************/
+list_example_data_t     SQLiteControl::read_data_range( int start, int end )
 {
     if( db == NULL )
     {
         ERROR_MSG("db is not exists");
-        return  ExampleData();
+        return  list_example_data_t();
     }
     
     std::stringstream   ss;
     ss << "select * from test_table where ID >= " << start << " and ID <= " << end << ";";
     
-    log_message( ss.str().c_str() );
+    log_message( 1, ss.str().c_str() );
     
-    int             res;
-    sqlite3_stmt    *stmt   =   NULL;
+    int		res;
     
+	sqlite3_stmt	*stmt   =   NULL;
+    ExampleData     data;
+
+    list_example_data_t		result;
+
     res     =   sqlite3_prepare( db, ss.str().c_str(), -1, &stmt, 0 );
     
     if( res != SQLITE_OK )
     {
         ERROR_MSG("db query fail.");
-        return  ExampleData();
+        return  list_example_data_t();
     }
     
-    ExampleData     data;
+	// start get data.
     while(true)
     {
         res     =   sqlite3_step( stmt );
-        if( res == SQLITE_ROW )
-        {
-            data.ID     =   sqlite3_column_int( stmt, 0 );
-            data.Name   =   (char*)sqlite3_column_text( stmt, 1 );
-            data.Age    =   sqlite3_column_int( stmt, 2 );
-            data.Height     =   sqlite3_column_double( stmt, 3 );
-            
-            std::cout << "ID = " << data.ID << " Name = " << data.Name << " Age = " << data.Age
-                      << " Height = " << data.Height << std::endl;
-            
-        }
-        else if( res == SQLITE_BUSY )
-        {
-        
-        }
-        else if( res == SQLITE_DONE )
-        {
+
+        if( res == SQLITE_ROW ) {
+			data	=	get_data( stmt ); 
+			result.push_back(data);            
+        } else if( res == SQLITE_BUSY ) {
+			sqlite3_sleep(10);
+        } else if( res == SQLITE_DONE ) {
             break;
-        }
-        else
-        {
+        } else {
             ERROR_MSG("db query fail.");
         }
     }
                                 
-    return  ExampleData();
+    return  result;
 }
 
 
@@ -199,4 +315,10 @@ void    log_message( char const *msg )
     std::cout << msg << std::endl;
 }
 
+
+void    log_message( int level, char const *msg )
+{
+	if( level > LOG_LEVEL )
+		std::cout << msg << std::endl;
+}
 
