@@ -26,7 +26,7 @@ int main(int argc, const char * argv[])
 
     sqc.write_data( data );
     
-    sqc.read_data( 1, 5 );
+    sqc.read_data_range( 1, 5 );
     
     return 0;
 }
