@@ -1,19 +1,29 @@
-// -lboost_system 
+// -lboost_system  -lboost_thread
 
-#include <boost/regex.hpp>
+#include <boost/thread.hpp>
+//#include <boost/array.hpp>
 #include <iostream>
-#include <string>
+
+using namespace std;
+ 
+void f()
+{
+   int i;
+   for( i = 0; i < 10; i++ )
+      cout << i << endl;
+}
 
 int main()
 {
-    std::string line;
-    boost::regex pat( "^Subject: (Re: |Aw: )*(.*)" );
+   boost::thread t[10];
+   for( int i = 0; i < 10; i++ )
+      t[i] = boost::thread(&f);
+   for( int j = 0; j < 10; j++ )
+      t[j].join();
 
-    while (std::cin)
-    {
-        std::getline(std::cin, line);
-        boost::smatch matches;
-        if (boost::regex_match(line, matches, pat))
-            std::cout << matches[2] << std::endl;
-    }
+
+//boost::array<int, 4> arr = {{1,2,3,4}};
+  //cout << "hi" << arr[0];
+
+   return 0;
 }
