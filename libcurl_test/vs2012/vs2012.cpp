@@ -4,36 +4,97 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <curl/curl.h>
+//#include <curl/curl.h>
+
+
+#include <iostream>
+#include <winsock2.h>
+#pragma comment(lib,"ws2_32.lib")
+
 
 using namespace std;
 
-#pragma comment(lib, "libcurl.lib")
-#pragma comment(lib, "wldap32.lib")
-#pragma comment(lib, "ws2_32.lib")
-#pragma comment(lib, "winmm.lib")
+
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    CURL *curl;
-    CURLcode res;
+	WSADATA WsaDat;
+	if(WSAStartup(MAKEWORD(2,2),&WsaDat)!=0)
+	{
+		std::cout<<"Winsock error - Winsock initialization failed\r\n";
+		WSACleanup();
+		system("PAUSE");
+		return 0;
+	}
+	
+	// Create our socket
 
-    curl = curl_easy_init();
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://www.baidu.com");
-        curl_easy_setopt(curl, CURLOPT_ENCODING, "gzip"); /* 测试是否支持gzip */
+	SOCKET Socket=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+	if(Socket==INVALID_SOCKET)
+	{
+		std::cout<<"Winsock error - Socket creation Failed!\r\n";
+		WSACleanup();
+		system("PAUSE");
+		return 0;
+	}
+	
+	// Resolve IP address for hostname
+	struct hostent *host;
+	if((host=gethostbyname("localhost"))==NULL)
+	{
+		std::cout<<"Failed to resolve hostname.\r\n";
+		WSACleanup();
+		system("PAUSE");
+		return 0;
+	}
+	
+	// Setup our socket address structure
+	SOCKADDR_IN SockAddr;
+	SockAddr.sin_port=htons(8888);
+	SockAddr.sin_family=AF_INET;
+	//SockAddr.sin_addr.s_addr=*((unsigned long*)host->h_addr);
+	SockAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-            curl_easy_strerror(res));
+	// Attempt to connect to server
+	if(connect(Socket,(SOCKADDR*)(&SockAddr),sizeof(SockAddr))!=0)
+	{
+		std::cout<<"Failed to establish connection with server\r\n";
+		WSACleanup();
+		system("PAUSE");
+		return 0;
+	}
+	
+	// If iMode!=0, non-blocking mode is enabled.
+	u_long iMode=1;
+	ioctlsocket(Socket,FIONBIO,&iMode);
+	
+	// Main loop
+	for(;;)
+	{
+		// Display message from server
+		char buffer[1000];
+		memset(buffer,0,999);
+		int inDataLength=recv(Socket,buffer,1000,0);
+		std::cout<<buffer;
+		
+		int nError=WSAGetLastError();
+		if(nError!=WSAEWOULDBLOCK&&nError!=0)
+		{
+			std::cout<<"Winsock error code: "<<nError<<"\r\n";
+			std::cout<<"Server disconnected!\r\n";
+			// Shutdown our socket
+			shutdown(Socket,SD_SEND);
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
+			// Close our socket entirely
+			closesocket(Socket);
+
+			break;
+		}
+		Sleep(1000);
+	}
+
+	WSACleanup();
 
 	system("PAUSE");
 	return 0;
