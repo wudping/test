@@ -1,3 +1,6 @@
+#ifndef SERVER_HPP
+#define SERVER_HPP
+
 #include <boost/network/protocol/http/server.hpp>
 #include <iostream>
 #include <cstdlib>
@@ -18,12 +21,16 @@ struct hello_world {
         unsigned int port = request.source_port;
         std::ostringstream data;
 
-		std::cout << "wait for";
+		char tmp[100];
+		//request >> tmp;
+		//std::cout << request.headers[0];
+
+		/*std::cout << "wait for";
 		for( int i = 0; i < 100; i++ )
 		{
 			Sleep(100);
 			std::cout << ".";
-		}
+		}*/
 
 
         data << "Hello, " << ip << ':' << port << '!';
@@ -58,3 +65,6 @@ int f_server() {
     return 0;
 }
 //]
+
+
+#endif

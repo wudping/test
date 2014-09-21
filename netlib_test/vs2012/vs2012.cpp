@@ -2,10 +2,12 @@
 //
 
 #include "stdafx.h"
+#include "../src/server.hpp"
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	f_server();
 	return 0;
 }
 
