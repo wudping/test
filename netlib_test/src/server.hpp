@@ -1,13 +1,8 @@
-#ifndef SERVER_HPP
-#define SERVER_HPP
-
-
 #include <boost/network/protocol/http/server.hpp>
 #include <iostream>
-#include <stdio.h>
+#include <cstdlib>
 
 namespace http = boost::network::http;
-
 
 /*<< Defines the server. >>*/
 struct hello_world;
@@ -19,53 +14,47 @@ struct hello_world {
     /*<< This is the function that handles the incoming request. >>*/
     void operator() (server::request const &request,
                      server::response &response) {
-
-
         server::string_type ip = source(request);
+        unsigned int port = request.source_port;
         std::ostringstream data;
 
-		
-        data << "Hello, " << ip << "!";
+		std::cout << "wait for";
+		for( int i = 0; i < 100; i++ )
+		{
+			Sleep(100);
+			std::cout << ".";
+		}
+
+
+        data << "Hello, " << ip << ':' << port << '!';
         response = server::response::stock_reply(
             server::response::ok, data.str());
-
-		std::cout << "test for wait " ;
-		for( int i = 0; i < 100000; i++ )
-			std::cout << "*";
-
     }
     /*<< It's necessary to define a log function, but it's ignored in
          this example. >>*/
-    void log(/*http_server::string_type const &info*/...) {
-		std::cout << "test";
-		//std::cerr << "ERROR: " << info << '\n';
+    void log(...) {
+        // do nothing
+		std::cout << "server log...\n";
     }
 };
 
 
-
-
-
-
-int server_test() {
+int f_server() {
     
     try {
         /*<< Creates the request handler. >>*/
         hello_world handler;
         /*<< Creates the server. >>*/
-        //server server_(argv[1], argv[2], handler);
-        server server_( "0.0.0.0", "8000", handler);
+        server::options options(handler);
+        server server_(options.address("127.0.0.1").port("8000"));
         /*<< Runs the server. >>*/
         server_.run();
-
-		//server_.log("test");
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
     }
-    system("PAUSE");
+    
     return 0;
 }
-
-#endif
+//]
