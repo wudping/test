@@ -1,9 +1,12 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+#include <boost/thread.hpp>
 #include <boost/network/protocol/http/server.hpp>
 #include <iostream>
 #include <cstdlib>
+#include <vector>
+#include <string>
 
 namespace http = boost::network::http;
 
@@ -21,15 +24,23 @@ struct hello_world {
         unsigned int port = request.source_port;
         std::ostringstream data;
 
-		char tmp[100];
-		//request >> tmp;
-		//std::cout << request.headers[0];
+		//std::vector<request_header_narrow>::iterator header_iterator = headers.begin();
 
-		/*std::cout << "wait for";
-		for( int i = 0; i < 100; i++ )
+		/*
+		std::vector<  boost::network::http::request_header_narrow> hv;
+		hv = headers(request);
+
+		std::cout << hv[0].name << std::endl;
+		int a = atoi(hv[0].name.c_str());
+
+		if( a == 2 )
 		{
-			Sleep(100);
-			std::cout << ".";
+			std::cout << "wait for";
+			for( int i = 0; i < 100; i++ )
+			{
+				Sleep(100);
+				std::cout << ".";
+			}
 		}*/
 
 
@@ -47,13 +58,28 @@ struct hello_world {
 
 
 int f_server() {
-    
+
+	// http://cpp-netlib.org/0.11.0/reference/http_server.html?highlight=thread  see for multi thread
+	//boost::thread t1(boost::bind(&http_server::run, &server));
+	//boost::thread t2(boost::bind(&http_server::run, &server));
+	//server.run();
+	//t1.join();
+	//t2.join();
+
+   
     try {
+
+
         /*<< Creates the request handler. >>*/
         hello_world handler;
         /*<< Creates the server. >>*/
         server::options options(handler);
-        server server_(options.address("127.0.0.1").port("8000"));
+        server server_(options.address("192.168.0.6").port("8000"));
+
+		//boost::thread t1(boost::bind(&server::run, &server_));
+		//boost::thread t2(boost::bind(&server::run, &server_));
+
+
         /*<< Runs the server. >>*/
         server_.run();
     }
