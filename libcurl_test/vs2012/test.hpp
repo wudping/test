@@ -83,7 +83,7 @@ int		http_test()
  
 #define FROM    "<Andrea@192.168.0.6>"
 #define TO      "<Chris_kuo@tutk.com>"
-#define CC      "<hidog.gao@msa.hinet.net>"
+#define CC      "<Andrea_kao@tutk.com>"
  
 static const char *payload_text[] = {
   "Date: Fri, 26 Sep 2014 12:12:29 +1100\r\n",
@@ -96,7 +96,7 @@ static const char *payload_text[] = {
   "Please hit the follow uri to confirm your email.\r\n",
   "\r\n",
   "and then you can use the foldrs service.\r\n",
-  "Check aeffas8efd.\r\n",
+  "Check dcd7cb36-11db-787a6565-9f3a-e652a9458efd.\r\n",
   NULL
 };
  
