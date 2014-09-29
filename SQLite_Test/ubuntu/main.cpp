@@ -25,12 +25,21 @@ ExampleData		rand_example_data()
 
 int 	f()
 {
-    std::cout << "test...";  
+   int a = 3;
+   a += 6;
+   std::cout << a ;//<< "this is a test..." << std::endl;
+  
+    std::cout << 123 ;
+  
+    std::cout << "testsetaseta....";
+    
 }
 
 
 int main(int argc, char* argv[])
 {
+
+  
     f();
   
 #if 0
