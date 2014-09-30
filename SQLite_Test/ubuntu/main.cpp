@@ -1,11 +1,11 @@
-//#include <SQLiteControl.h>
+#include <SQLiteControl.h>
 #include <ctime>
 #include <sstream>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
 
-#if 0
+
 ExampleData		rand_example_data()
 {
 	ExampleData		data;
@@ -20,29 +20,12 @@ ExampleData		rand_example_data()
 
 	return		data;
 }
-#endif
 
 
-int 	f()
-{
-   int a = 3;
-   a += 6;
-   std::cout << a ;//<< "this is a test..." << std::endl;
-  
-    std::cout << 123 ;
-  
-    std::cout << "testsetaseta....";
-    
-}
 
 
 int main(int argc, char* argv[])
 {
-
-  
-    f();
-  
-#if 0
 	srand(time(NULL));
 
 
@@ -71,8 +54,6 @@ int main(int argc, char* argv[])
 	{
 		std::cout << itr->ID << " " << itr->Name << " " << itr->Age << " " << itr->Height << std::endl;
 	}
-
-#endif
 
 	return 0;
 }
