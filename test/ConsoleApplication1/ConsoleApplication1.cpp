@@ -1,7 +1,7 @@
 ﻿// ConsoleApplication1.cpp : 定義主控台應用程式的進入點。
 //
 // BFEBFBFF000306C3    
-#include "stdafx.h"
+//#include "stdafx.h"
 
 
 
@@ -15,10 +15,12 @@
 #include <iostream>
 #include <vector>
 #include <bitset>
-#include <array>
+//#include <array>
 #include <string>
-#include <intrin.h>
+//#include <intrin.h>
 
+
+#if 0
 class InstructionSet
 {
     // forward declarations
@@ -187,12 +189,14 @@ private:
         std::vector<std::array<int, 4>> extdata_;
     };
 };
+#endif
 
 // Initialize static member data
-const InstructionSet::InstructionSet_Internal InstructionSet::CPU_Rep;
+//const InstructionSet::InstructionSet_Internal InstructionSet::CPU_Rep;
 
 
 // Print out supported instruction set extensions
+#if 0
 int f()
 {
     auto& outstream = std::cout;
@@ -260,25 +264,46 @@ int f()
 }
 
 
-
+#endif
 
 
 
 #include <cstring>
+
+#include <stdio.h>
 
 using namespace std;
 
 
     string GetCPUPhysicalSerialNo()  
     {  
-        unsigned long ulS1,ulS2;  
+        unsigned int ulS1,ulS2;  
         //string strCPUID,strCPUID1,strCPUID2;  
         char strCPUID1[40],strCPUID2[40];  
 		string strCPUID;
-
+		
+      /* __asm__  __volatile__ (
+	     "mov eax,01h   \n\t" :
+	     "xor edx,edx   \n\t" :
+	     "cpuid   \n\t" :
+	     "mov ulS1,edx   \n\t" :
+	     "mov ulS2,eax   \n\t" :
+         );
+       sprintf( strCPUID1, "%08X%08X", ulS1,ulS2 );
+       __asm__  __volatile__ (
+	 "mov eax,00h   \n\t"
+	 "xor ecx,ecx   \n\t"
+	 "xor edx,edx   \n\t"
+	 "cpuid   \n\t"
+	 "mov ulS1,edx   \n\t"
+	 "mov ulS2,ecx   \n\t"
+      );
+       sprintf( strCPUID2, "%08X%08X",ulS1,ulS2);*/
+		
+#if 0
         __asm  
         {  
-            mov eax,01h  
+            mov eax ,01h  
             xor edx,edx  
             cpuid  
             mov ulS1,edx  
@@ -288,13 +313,14 @@ using namespace std;
 		sprintf( strCPUID1, "%08x%08x", ulS1, ulS2 );
         __asm  
         {  
-            mov eax,00h  
+            mov eax, 00h  
             xor ecx,ecx  
             xor edx,edx  
             cpuid  
             mov ulS1,edx  
             mov ulS2,ecx  
         }  
+#endif
         //strCPUID2.Format("%08X%08X",ulS1,ulS2);  
 		sprintf( strCPUID2, "%08x%08x", ulS1, ulS2 );
 
@@ -304,15 +330,42 @@ using namespace std;
         return strCPUID;  
       
     }  
+    
+    
+ //  http://clang.llvm.org/doxygen/cpuid_8h.html
+ // http://clang.llvm.org/doxygen/cpuid_8h_source.html
+ // http://www.cs.usfca.edu/~cruse/cs686s07/cpuid.cpp
+    
+    
+#include <cpuid.h>
 
 #include <cstdlib>
+#if 0
 int _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char* argv[])
+#endif
 {
-	cout << GetCPUPhysicalSerialNo() << "\n";
+	//cout << GetCPUPhysicalSerialNo() << "\n";
+  
+  //__get_cpuid (unsigned int __level, unsigned int *__eax, unsigned int *__ebx, unsigned int *__ecx, unsigned int *__edx)
+  
+    unsigned int eax, ebx, ecx, edx;
+    __get_cpuid( 0, &eax, &ebx, &ecx, &edx );
 
-	char buf[100];
-	int i = system("wmic CPU get ProcessorID"); 
+    char buf[17];
+    ((unsigned int*)buf)[0] = ebx;
+    ((unsigned int*)buf)[1] = edx;
+    ((unsigned int*)buf)[2] = ecx;        
+    ((unsigned int*)buf)[3] = eax;
+    printf("%s\n",buf);
+    
+    unsigned int sig ;
+     __get_cpuid_max( 0,& sig );
+    printf("%x",sig);
+     
+	//int i = system("wmic CPU get ProcessorID"); 
 
-	system("PAUSE");
+	//system("PAUSE");
 	return 0;
 }
