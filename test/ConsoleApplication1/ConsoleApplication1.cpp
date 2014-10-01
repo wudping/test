@@ -1,6 +1,6 @@
 ﻿// ConsoleApplication1.cpp : 定義主控台應用程式的進入點。
 //
-
+// BFEBFBFF000306C3    
 #include "stdafx.h"
 
 
