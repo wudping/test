@@ -29,7 +29,7 @@ sprintf(PSN, "%s-%C%C%C%C-%C%C%C%C",PSN,  str[0], str[1], str[2], str[3], str[4]
 
 
 //%eax=3 gives least significant 64 bits in edx and ecx [if PN is enabled]
-__asm__ __volatile__ ("cpuid": "=a" (varEAX), "=b" (varEBX), "=c" (varECX), "=d" (varEDX) : "a" (1));
+__asm__ __volatile__ ("cpuid": "=a" (varEAX), "=b" (varEBX), "=c" (varECX), "=d" (varEDX) : "a" (2));
 
 sprintf(str, "%08X", varEDX); //i.e. xxxx-xxxx-XXXX-XXXX-xxxx-xxxx
 
@@ -112,11 +112,11 @@ int main(int argc, char* argv[])
 #endif
 {
   
-  printf( "%s\n", cpu_get_serial().c_str() );
+  //printf( "%s\n", cpu_get_serial().c_str() );
   
-  //char PSN[30]; //24 Hex digits, 5 '-' separators, and a '\0'
-//getPSN(PSN);
-//printf("%s\n", PSN); //compare with: lshw | grep serial:
+  char PSN[30]; //24 Hex digits, 5 '-' separators, and a '\0'
+getPSN(PSN);
+printf("%s\n", PSN); //compare with: lshw | grep serial:
   
   
 //GetCPUPhysicalSerialNo();

@@ -1,7 +1,7 @@
 #include <CpuInformation.h>
 #include <stdio.h>
 
-#ifdef UNIX
+#if defined(UNIX) | defined(MACOS)
 #include <cpuid.h>
 #endif
 
