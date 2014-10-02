@@ -114,9 +114,9 @@ int main(int argc, char* argv[])
   
   //printf( "%s\n", cpu_get_serial().c_str() );
   
-  char PSN[30]; //24 Hex digits, 5 '-' separators, and a '\0'
-getPSN(PSN);
-printf("%s\n", PSN); //compare with: lshw | grep serial:
+  //char PSN[30]; //24 Hex digits, 5 '-' separators, and a '\0'
+//getPSN(PSN);
+//printf("%s\n", PSN); //compare with: lshw | grep serial:
   
   
 //GetCPUPhysicalSerialNo();
@@ -129,9 +129,11 @@ printf("%s\n", PSN); //compare with: lshw | grep serial:
   
   //__get_cpuid (unsigned int __level, unsigned int *__eax, unsigned int *__ebx, unsigned int *__ecx, unsigned int *__edx)
   
-    /*unsigned int eax, ebx, ecx, edx;
-    __get_cpuid( 0, &eax, &ebx, &ecx, &edx );
+    unsigned int eax, ebx, ecx, edx;
+    __get_cpuid( 1, &eax, &ebx, &ecx, &edx );
 
+    printf("%08X-%08X-%08X-%08X\n", eax, ebx, ecx, edx );
+    
     char buf[17];
     ((unsigned int*)buf)[0] = ebx;
     ((unsigned int*)buf)[1] = edx;
@@ -139,9 +141,9 @@ printf("%s\n", PSN); //compare with: lshw | grep serial:
     ((unsigned int*)buf)[3] = eax;
     printf("%s\n",buf);
     
-    unsigned int sig ;
-     __get_cpuid_max( 0,& sig );
-    printf("%x",sig);*/
+    //unsigned int sig ;
+     //__get_cpuid_max( 0,& sig );
+    //printf("%x",sig);*/
      
 	//int i = system("wmic CPU get ProcessorID"); 
 
