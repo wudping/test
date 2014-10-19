@@ -3,11 +3,13 @@
 
 #include "stdafx.h"
 #include "../src/server.hpp"
+#include "../src/async_server.hpp"
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	f_server();
+	//f_server();
+	async_test();
 	return 0;
 }
 
