@@ -85,11 +85,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\async_server.hpp" />
-    <ClInclude Include="..\src\server.hpp" />
+    <FxCompile Include="..\src\server.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <ClInclude Include="..\src\windows_mmap.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\windows_mmap.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="vs2012.cpp" />
   </ItemGroup>

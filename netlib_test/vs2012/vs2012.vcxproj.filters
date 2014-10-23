@@ -30,7 +30,7 @@
     <ClInclude Include="..\src\async_server.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\server.hpp">
+    <ClInclude Include="..\src\windows_mmap.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,5 +41,13 @@
     <ClCompile Include="vs2012.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\windows_mmap.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\src\server.hpp">
+      <Filter>src</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
