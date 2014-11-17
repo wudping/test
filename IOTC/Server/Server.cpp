@@ -3,9 +3,13 @@
 
 #include "stdafx.h"
 
+#include "test.h"
 
-int _tmain(int argc, _TCHAR* argv[])
+
+int _tmain(int argc, char* argv[])
 {
+	test();
+
 	return 0;
 }
 
