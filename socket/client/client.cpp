@@ -43,7 +43,7 @@ void	g( int thr_id )
  
     //設定 addr 資料
     //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    addr.sin_addr.s_addr = inet_addr("192.168.0.12");
+    addr.sin_addr.s_addr = inet_addr("192.168.2.66");
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(1234);
