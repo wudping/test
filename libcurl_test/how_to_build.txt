@@ -1,5 +1,0 @@
-http://falldog7.blogspot.tw/2013/12/cc-windows-build-static-libcurl-library.html
-
-nmake /f Makefile.vc mode=static
-
-mode=dll    biuild dll version.
