@@ -32,7 +32,21 @@ void UDP_socket_server()
     
     while(true)
     {
+
+        int clientfd;
+        struct sockaddr_in client_addr;
+        socklen_t addrlen = sizeof(client_addr);
+            
+        /* Wait and Accept connection */
+        clientfd = accept( skt , (struct sockaddr*)&dest, &addrlen );
         
+        /* Send message */
+        //send(clientfd, buffer, sizeof(buffer), 0);
+            
+        /* close(client) */
+        //close(clientfd);
     }
+        
+    /* close(server) , but never get here because of the loop */
 
 }
