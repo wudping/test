@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/title_bar">
+        <file>exit.png</file>
+        <file>folder.png</file>
+        <file>line.png</file>
+    </qresource>
+</RCC>

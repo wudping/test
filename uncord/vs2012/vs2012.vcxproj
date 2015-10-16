@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{23FFAF79-DFA3-48F3-AF91-76757D68C1AC}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeOutput>foldrs.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>USE_QT;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>./vsmkfd.bat</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>./vsmkfd_clean.bat</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>./vsmkfd_rebuild.bat</NMakeCleanCommandLine>
+    <IncludePath>D:\code\QT5\qtbase\include\QtNetwork;D:\code\Uncord\ui;C:\Boost\include\boost-1_56;D:\code\Uncord\lib\win32\netlib\include;D:\code\Uncord\lib\win32\qrencode\include;D:\code\Uncord\lib\win32\libcurl\include;D:\code\QT5\qtbase\include;D:\code\QT5\qtbase\include\QtWidgets;D:\code\QT5\qtbase\include\QtGui;D:\code\QT5\qtbase\include\QtCore;D:\code\Uncord\qt;D:\code\Uncord\src;D:\code\Uncord\vs2012;D:\code\Uncord\TUTK;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\code\Uncord\lib\win32\libcurl\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeOutput>foldrs.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>USE_QT;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>./vsmkf.bat</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>./vsmkf_rebuild.bat</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>./vsmkf_clean.bat</NMakeCleanCommandLine>
+    <IncludePath>C:\Boost\include\boost-1_56;D:\code\netlib;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\qt\ClickedLabel.cpp" />
+    <ClCompile Include="..\qt\QRCodeGenerator.cpp" />
+    <ClCompile Include="..\qt\Thread.cpp" />
+    <ClCompile Include="..\qt\ThreadManager.cpp" />
+    <ClCompile Include="..\src\client\HttpClient.cpp" />
+    <ClCompile Include="..\src\client\NetClientBase.cpp" />
+    <ClCompile Include="..\src\CpuInformation.cpp" />
+    <ClCompile Include="..\src\DataManager.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\NetBase.cpp" />
+    <ClCompile Include="..\src\NetWorkSpeed.cpp" />
+    <ClCompile Include="..\src\server\AsyncHttpServer.cpp" />
+    <ClCompile Include="..\src\server\AsyncHttpServer_priv.cpp" />
+    <ClCompile Include="..\src\server\HttpServer.cpp" />
+    <ClCompile Include="..\src\server\HttpServer_priv.cpp" />
+    <ClCompile Include="..\src\server\mmap_windows.cpp" />
+    <ClCompile Include="..\src\server\NetServerBase.cpp" />
+    <ClCompile Include="..\src\server\SFtpServer.cpp" />
+    <ClCompile Include="..\src\TUTK_P2PTunnel.cpp" />
+    <ClCompile Include="..\src\UncordBase.cpp" />
+    <ClCompile Include="..\src\UncordObject.cpp" />
+    <ClCompile Include="..\ui\deviceinfo_frame.cpp" />
+    <ClCompile Include="..\ui\device_rename_widget.cpp" />
+    <ClCompile Include="..\ui\mainwindow.cpp" />
+    <ClCompile Include="..\ui\qrcode_widget.cpp" />
+    <ClCompile Include="..\ui\setting_widget.cpp" />
+    <ClCompile Include="..\ui\status_widget.cpp" />
+    <ClCompile Include="..\ui\title_bar.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\qt\ClickedLabel.h" />
+    <ClInclude Include="..\qt\QRCodeGenerator.h" />
+    <ClInclude Include="..\qt\Thread.h" />
+    <ClInclude Include="..\qt\ThreadManager.h" />
+    <ClInclude Include="..\src\client\HttpClient.h" />
+    <ClInclude Include="..\src\client\NetClientBase.h" />
+    <ClInclude Include="..\src\common.h" />
+    <ClInclude Include="..\src\CpuInformation.h" />
+    <ClInclude Include="..\src\DataManager.h" />
+    <ClInclude Include="..\src\mime_type.hpp" />
+    <ClInclude Include="..\src\NetBase.h" />
+    <ClInclude Include="..\src\NetWorkSpeed.h" />
+    <ClInclude Include="..\src\server\AsyncHttpServer.h" />
+    <ClInclude Include="..\src\server\AsyncHttpServer_priv.h" />
+    <ClInclude Include="..\src\server\HttpServer.h" />
+    <ClInclude Include="..\src\server\HttpServer_priv.h" />
+    <ClInclude Include="..\src\server\mmap_windows.h" />
+    <ClInclude Include="..\src\server\NetServerBase.h" />
+    <ClInclude Include="..\src\server\SFtpServer.h" />
+    <ClInclude Include="..\src\TUTK_P2PTunnel.h" />
+    <ClInclude Include="..\src\UncordBase.h" />
+    <ClInclude Include="..\src\UncordObject.h" />
+    <ClInclude Include="..\ui\deviceinfo_frame.h" />
+    <ClInclude Include="..\ui\device_rename_widget.h" />
+    <ClInclude Include="..\ui\mainwindow.h" />
+    <ClInclude Include="..\ui\qrcode_widget.h" />
+    <ClInclude Include="..\ui\setting_widget.h" />
+    <ClInclude Include="..\ui\status_widget.h" />
+    <ClInclude Include="..\ui\title_bar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\client.pro" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
