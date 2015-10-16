@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/mainwindow">
-        <file>edit_adddevice.png</file>
-        <file>edit_disconnect.png</file>
-        <file>edit_name.png</file>
-        <file>bar_setting.png</file>
-        <file>bar_status.png</file>
-    </qresource>
-</RCC>
