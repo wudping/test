@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #define MARK_MACRO \
 	std::cout << __FILE__ << " " << __FUNCTION__ << " " << __LINE__ << "\n\n";
