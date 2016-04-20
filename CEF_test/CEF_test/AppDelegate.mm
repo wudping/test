@@ -1,32 +1,31 @@
+//
+//  AppDelegate.m
+//  CEF_test
+//
+//  Created by hidog on 2016/4/20.
+//  Copyright © 2016年 hidog. All rights reserved.
+//
 
 #import "AppDelegate.h"
+
 
 #import "include/cef_app.h"
 #import "include/cef_application_mac.h"
 #import "include/cef_base.h"
 #import "include/cef_browser.h"
 #import "include/cef_client.h"
-#import "include/cef_command_line.h"
-#import "include/cef_frame.h"
-#import "include/cef_runnable.h"
-#import "include/cef_web_plugin.h"
-#import "include/cef_web_urlrequest.h"
 
-#import "ClientHandler.h"
 
-#include <iostream>
+
+@interface AppDelegate ()
+
+- (IBAction)saveAction:(id)sender;
+
+@end
 
 @implementation AppDelegate
 
-@synthesize window;
-
-- (void)dealloc
-{
-    [super dealloc];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     CefSettings appSettings;
     CefBrowserSettings browserSettings;
     
@@ -45,5 +44,11 @@
     
     CefRunMessageLoop();
 }
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // Insert code here to tear down your application
+}
+
+
 
 @end
