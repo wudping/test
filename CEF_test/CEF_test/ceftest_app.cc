@@ -5,16 +5,59 @@
 #include "ceftest_app.h"
 
 #include <string>
+#include <iostream>
 
 //#include "cefsimple/simple_handler.h"
 #include "include/cef_browser.h"
 #include "include/cef_command_line.h"
 #include "include/wrapper/cef_helpers.h"
 
+#ifdef _WIN32
+#error 
+#else
+#include <unistd.h>
+#endif
+
+#ifdef MACOS
+#include "CoreFoundation/CoreFoundation.h"
+#endif
+
 
 //
 CefTestApp::CefTestApp()
 {}
+
+
+//
+std::string CefTestApp::html_path()
+{
+    //char buf[80];
+    //getcwd( buf, 80 );
+    //printf( "path = %s\n", buf );
+    
+    std::string str;
+    
+#ifdef MACOS
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+    char path[PATH_MAX];
+    if (!CFURLGetFileSystemRepresentation( resourcesURL, TRUE, (UInt8 *)path, PATH_MAX))
+    {
+        // error!
+        std::cout << "error!!";
+    }
+    CFRelease(resourcesURL);
+    
+    //chdir(path);
+    std::cout << "Current Path: " << path << std::endl;
+    str = "file://";
+    str.append(path);
+    str.append( "/html/index.html");
+#endif
+    
+    return str;
+}
+
 
 
 //
@@ -43,10 +86,13 @@ void CefTestApp::OnContextInitialized()
     // that instead of the default URL.
     CefRefPtr<CefCommandLine> command_line = CefCommandLine::GetGlobalCommandLine();
     
+
+    
     url = command_line->GetSwitchValue("url");
     if (url.empty())
-        url = "http://www.google.com";
-
+        url = html_path();
+        //url = "file:///Users/hidog/code/test/CEF_test/html/index.html";
+    
     // Create the first browser window.
-    //CefBrowserHost::CreateBrowser(window_info, handler.get(), url, browser_settings, NULL);
+    CefBrowserHost::CreateBrowser(window_info, this, url, browser_settings, NULL);
 }

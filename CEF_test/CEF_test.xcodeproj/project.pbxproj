@@ -15,6 +15,7 @@
 		6D17DFFA1CD066A100E40DE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D17DFF91CD066A100E40DE5 /* AppKit.framework */; };
 		6D17E0081CD07E6C00E40DE5 /* Chromium Embedded Framework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DF6A40E1CCF622600EA4C83 /* Chromium Embedded Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D17E0091CD07E7200E40DE5 /* CEF_test Helper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DF6A2631CCF4CD000EA4C83 /* CEF_test Helper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6D623F641CD1AE44002B90B5 /* html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6D623F631CD1AE44002B90B5 /* html */; };
 		6DF6A4081CCF574800EA4C83 /* libcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DF6A4051CCF574800EA4C83 /* libcef_dll_wrapper.a */; };
 		6DF6A40F1CCF622600EA4C83 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DF6A40E1CCF622600EA4C83 /* Chromium Embedded Framework.framework */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6D623F621CD1AE23002B90B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				6D623F641CD1AE44002B90B5 /* html in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +66,7 @@
 		6D17E0021CD0744F00E40DE5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		6D5DFBF41CCF319C00FBDEE1 /* CEF_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CEF_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5DFC021CCF319C00FBDEE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D623F631CD1AE44002B90B5 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		6DF6A2631CCF4CD000EA4C83 /* CEF_test Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CEF_test Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF6A2701CCF4CD000EA4C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DF6A3501CCF574800EA4C83 /* cef_atomic_ref_count.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cef_atomic_ref_count.h; sourceTree = "<group>"; };
@@ -265,6 +277,7 @@
 		6D5DFBEB1CCF319C00FBDEE1 = {
 			isa = PBXGroup;
 			children = (
+				6D623F631CD1AE44002B90B5 /* html */,
 				6D17E0021CD0744F00E40DE5 /* CFNetwork.framework */,
 				6D17E0001CD0743E00E40DE5 /* CoreData.framework */,
 				6D17DFFE1CD0742D00E40DE5 /* Accelerate.framework */,
@@ -550,9 +563,9 @@
 			buildPhases = (
 				6D5DFBF01CCF319C00FBDEE1 /* Sources */,
 				6D5DFBF11CCF319C00FBDEE1 /* Frameworks */,
-				6D5DFBF21CCF319C00FBDEE1 /* Resources */,
 				6D17E0071CD07E5C00E40DE5 /* CopyFiles */,
 				6D17E0231CD0A8E700E40DE5 /* ShellScript */,
+				6D623F621CD1AE23002B90B5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -619,13 +632,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6D5DFBF21CCF319C00FBDEE1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6DF6A2611CCF4CD000EA4C83 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -835,11 +841,8 @@
 				GCC_ENABLE_PASCAL_STRINGS = NO;
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					__STDC_CONSTANT_MACROS,
-					__STDC_FORMAT_MACROS,
-					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					MACOS,
+					Debug,
 				);
 				GCC_THREADSAFE_STATICS = NO;
 				HEADER_SEARCH_PATHS = ./CEF/;
@@ -905,6 +908,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_PASCAL_STRINGS = NO;
 				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = MACOS;
 				GCC_THREADSAFE_STATICS = NO;
 				HEADER_SEARCH_PATHS = ./CEF/;
 				INFOPLIST_FILE = CEF_test/Info.plist;
