@@ -8,45 +8,22 @@
 #include "include/cef_app.h"
 #include "include/cef_client.h"
 #include "include/cef_life_span_handler.h"
+#include "include/cef_render_process_handler.h"
 
 #include <cstring>
 
 
-//
-/*class CefTestHandler : public CefClient, public CefV8Handler, public CefRenderProcessHandler, public CefLifeSpanHandler, public CefLoadHandler, public CefDisplayHandler
-{
-public:
-    
-    CefTestHandler();
-    
 
+class CefTestApp;
 
-    // Virutal on CefV8Handler
-    bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE;
-    
-    // Virutal on CefV8ContextHandler
-    void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
-    
-    //
-    virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
-
-    
-private:
-    
-    // The child browser window
-    CefRefPtr<CefBrowser> m_Browser;
-    
-    IMPLEMENT_REFCOUNTING(CefTestHandler);
-};*/
-
-
+CefTestApp* get_app_instance();
 
 
 
 
 
 // Implement application-level callbacks for the browser process.
-class CefTestApp : public CefApp, public CefBrowserProcessHandler, public CefClient, public CefV8Handler, public CefRenderProcessHandler, public CefLifeSpanHandler, public CefLoadHandler, public CefDisplayHandler
+class CefTestApp : public CefApp, public CefBrowserProcessHandler, public CefClient, /*public CefV8Handler,*/ public CefRenderProcessHandler, public CefLifeSpanHandler, public CefLoadHandler, public CefDisplayHandler
 {
 
 public:
@@ -76,13 +53,18 @@ public:
     std::string html_path();
 
     // Virutal on CefV8Handler
-    bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE;
+    //bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE;
 
     // Virutal on CefV8ContextHandler
-    void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
+    //void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
 
     //
     virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+
+    virtual CefRefPtr<CefBrowser>   get_browser() 
+    {
+        return  m_Browser;
+    }
 
 
 

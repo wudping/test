@@ -16,6 +16,9 @@
 		6D17E0081CD07E6C00E40DE5 /* Chromium Embedded Framework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DF6A40E1CCF622600EA4C83 /* Chromium Embedded Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D17E0091CD07E7200E40DE5 /* CEF_test Helper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DF6A2631CCF4CD000EA4C83 /* CEF_test Helper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6D623F641CD1AE44002B90B5 /* html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6D623F631CD1AE44002B90B5 /* html */; };
+		6D9CB1281CD1FD9E00A26899 /* ceftest_other.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CB1241CD1FD9E00A26899 /* ceftest_other.cpp */; };
+		6D9CB1291CD1FD9E00A26899 /* ceftest_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CB1261CD1FD9E00A26899 /* ceftest_renderer.cpp */; };
+		6D9CB12F1CD20CFF00A26899 /* ceftest_app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CB12D1CD20CFF00A26899 /* ceftest_app.cc */; };
 		6DF6A4081CCF574800EA4C83 /* libcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DF6A4051CCF574800EA4C83 /* libcef_dll_wrapper.a */; };
 		6DF6A40F1CCF622600EA4C83 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DF6A40E1CCF622600EA4C83 /* Chromium Embedded Framework.framework */; };
 /* End PBXBuildFile section */
@@ -67,6 +70,12 @@
 		6D5DFBF41CCF319C00FBDEE1 /* CEF_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CEF_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5DFC021CCF319C00FBDEE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D623F631CD1AE44002B90B5 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
+		6D9CB1241CD1FD9E00A26899 /* ceftest_other.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ceftest_other.cpp; sourceTree = "<group>"; };
+		6D9CB1251CD1FD9E00A26899 /* ceftest_other.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ceftest_other.h; sourceTree = "<group>"; };
+		6D9CB1261CD1FD9E00A26899 /* ceftest_renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ceftest_renderer.cpp; sourceTree = "<group>"; };
+		6D9CB1271CD1FD9E00A26899 /* ceftest_renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ceftest_renderer.h; sourceTree = "<group>"; };
+		6D9CB12D1CD20CFF00A26899 /* ceftest_app.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ceftest_app.cc; path = CEF_test/ceftest_app.cc; sourceTree = SOURCE_ROOT; };
+		6D9CB12E1CD20CFF00A26899 /* ceftest_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ceftest_app.h; path = CEF_test/ceftest_app.h; sourceTree = SOURCE_ROOT; };
 		6DF6A2631CCF4CD000EA4C83 /* CEF_test Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CEF_test Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF6A2701CCF4CD000EA4C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DF6A3501CCF574800EA4C83 /* cef_atomic_ref_count.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cef_atomic_ref_count.h; sourceTree = "<group>"; };
@@ -314,6 +323,12 @@
 		6DF6A2641CCF4CD000EA4C83 /* CEF_test Helper */ = {
 			isa = PBXGroup;
 			children = (
+				6D9CB12D1CD20CFF00A26899 /* ceftest_app.cc */,
+				6D9CB12E1CD20CFF00A26899 /* ceftest_app.h */,
+				6D9CB1241CD1FD9E00A26899 /* ceftest_other.cpp */,
+				6D9CB1251CD1FD9E00A26899 /* ceftest_other.h */,
+				6D9CB1261CD1FD9E00A26899 /* ceftest_renderer.cpp */,
+				6D9CB1271CD1FD9E00A26899 /* ceftest_renderer.h */,
 				6D17DFF21CD05DC200E40DE5 /* process_helper_mac.cc */,
 				6DF6A2701CCF4CD000EA4C83 /* Info.plist */,
 			);
@@ -686,7 +701,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9CB12F1CD20CFF00A26899 /* ceftest_app.cc in Sources */,
+				6D9CB1291CD1FD9E00A26899 /* ceftest_renderer.cpp in Sources */,
 				6D17DFF31CD05DC200E40DE5 /* process_helper_mac.cc in Sources */,
+				6D9CB1281CD1FD9E00A26899 /* ceftest_other.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
