@@ -145,8 +145,9 @@ int main(int argc, char* argv[])
     // CEF has initialized.
     CefRefPtr<CefTestApp> app(new CefTestApp);
 
+    
     // Initialize CEF for the browser process.
-    CefInitialize( main_args, settings, app.get(), NULL );
+    CefInitialize( main_args, settings, app, NULL );
   
     // Create the application delegate.
     NSObject* delegate = [[SimpleAppDelegate alloc] init];
