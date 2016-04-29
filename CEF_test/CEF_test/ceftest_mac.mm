@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
     // Provide CEF with command-line arguments.
     CefMainArgs main_args(argc, argv);
 
-    // Initialize the AutoRelease pool.
+    // Initialize the AutoRelease pool.Info.plist
     NSAutoreleasePool* autopool = [[NSAutoreleasePool alloc] init];
 
     // Initialize the SimpleApplication instance.
