@@ -23,13 +23,6 @@
 #endif
 
 
-//
-static CefTestApp *p_app = NULL;
-CefTestApp* get_app_instance()
-{
-    return p_app;
-}
-
 
 
 
@@ -60,9 +53,6 @@ void CefTestApp::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 //
 CefTestApp::CefTestApp()
 {
-    if( p_app != NULL )
-        printf("error\n");
-    p_app   =   this;
 }
 
 

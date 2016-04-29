@@ -22,9 +22,15 @@ public:
     // CefApp methods.
     CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE;
 
+    void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE
+    {
+        m_browser = browser;
+    }
 
     
 private:
+    
+    CefRefPtr<CefBrowser> m_browser;
     
     
     IMPLEMENT_REFCOUNTING(CefTestRenderer);

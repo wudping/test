@@ -4,6 +4,8 @@ $(document).ready(function() {
     });
 });
 
+
+
 function ChangeText(text) {
     $('#text').html(text);
 }

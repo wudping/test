@@ -14,12 +14,6 @@
 
 
 
-class CefTestApp;
-
-CefTestApp* get_app_instance();
-
-
-
 
 
 // Implement application-level callbacks for the browser process.

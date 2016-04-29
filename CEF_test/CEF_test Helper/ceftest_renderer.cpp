@@ -5,7 +5,8 @@
 
 
 //
-CefTestRenderer::CefTestRenderer()
+CefTestRenderer::CefTestRenderer() :
+    m_browser(NULL)
 {}
 
 
@@ -49,9 +50,19 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
         {
             CefString text = arguments[0]->GetStringValue();
             
-            CefRefPtr<CefFrame> frame = get_app_instance()->get_browser()->GetMainFrame();
+            if( m_browser.get() == NULL )
+            {
+                printf("NULL ptr\n");
+                return true;
+            }
+            
+            
+            CefRefPtr<CefFrame> frame = m_browser->GetMainFrame();
+            
             
             std::string jscall = "ChangeText('";
+            
+            
             jscall += text;
             jscall += "');";
             
