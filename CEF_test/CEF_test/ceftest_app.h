@@ -60,7 +60,9 @@ public:
         return  m_Browser;
     }
 
+    bool OnProcessMessageReceived( CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 
+    void send_message_back();
 
 private:
 
