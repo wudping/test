@@ -112,8 +112,13 @@
 
 - (void)tryToTerminateApplication:(NSApplication*)app
 {
+<<<<<<< HEAD
     SimpleHandler* handler = SimpleHandler::GetInstance(); // definei in simpler_handler.h
     if (handler && !handler->IsClosing())
+=======
+    CefTestApp* handler = CefTestApp::get_instance(); // definei in simpler_handler.h
+    if (handler && !handler->is_closing() )
+>>>>>>> dd1387ff819e6ce60caded39f203e4cbfbbafd08
         handler->CloseAllBrowsers(false);
 }
 
