@@ -27,7 +27,10 @@ public:
         m_browser = browser;
     }
 
-    
+    void    send_process_message_test();
+
+    bool OnProcessMessageReceived( CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+
 private:
     
     CefRefPtr<CefBrowser> m_browser;

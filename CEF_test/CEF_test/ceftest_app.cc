@@ -184,8 +184,39 @@ void CefTestApp::OnContextInitialized()
 }
 
 
+//
+// https://github.com/antelle/io-ui/blob/master/src/ui-window/ui-window-win-web-host-cef.cpp
+bool CefTestApp::OnProcessMessageReceived( CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+{
+    // Check the message name.
+    const std::string& message_name = message->GetName();
+    CefRefPtr<CefListValue> args = message->GetArgumentList();
+  
+
+    
+    printf("receive msg name = %s\n", message_name.c_str() );
+    printf("msg1 = %s, msg2 = %s\n", args->GetString(0).ToString().c_str(), args->GetString(1).ToString().c_str() );
+    //printf("value1 = %d\n", args->GetInt(0) );
+    //printf("value2 = %lf\n", args->GetDouble(0) );
+    
+    send_message_back();
+    
+    return  true;
+}
 
 
-
-
+//
+void CefTestApp::send_message_back()
+{
+    printf("start send back\n");
+    
+    // Create the message object.
+    CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create("CEF_test send back");
+    
+    // Send the process message to the render process.
+    // Use PID_BROWSER instead when sending a message to the browser process.
+    m_Browser->SendProcessMessage( PID_RENDERER, msg );
+    
+    printf("end send back.\n");
+}
 

@@ -62,11 +62,17 @@ public:
         return  m_Browser;
     }
 
+<<<<<<< HEAD
     bool    is_closing() { return _is_close; }
 
     virtual bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
     void    CloseAllBrowsers(bool force_close);
+=======
+    bool OnProcessMessageReceived( CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+
+    void send_message_back();
+>>>>>>> 1ba646084a5fa0bd8015f0191bf446734c7e0fce
 
 private:
 
