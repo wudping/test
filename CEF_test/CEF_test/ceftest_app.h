@@ -16,6 +16,7 @@
 
 
 
+
 // Implement application-level callbacks for the browser process.
 class CefTestApp : public CefApp, public CefBrowserProcessHandler, public CefClient, /*public CefV8Handler,*/ public CefRenderProcessHandler, public CefLifeSpanHandler, public CefLoadHandler, public CefDisplayHandler
 {
