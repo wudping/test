@@ -22,6 +22,8 @@ class CefTestApp : public CefApp, public CefBrowserProcessHandler, public CefCli
 
 public:
     CefTestApp();
+    
+    static CefTestApp* get_instance();
 
     // CefClient methods:
     virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE
@@ -60,9 +62,15 @@ public:
         return  m_Browser;
     }
 
+    bool    is_closing() { return _is_close; }
 
+    virtual bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+
+    void    CloseAllBrowsers(bool force_close);
 
 private:
+
+    bool    _is_close;
 
     // The child browser window
     CefRefPtr<CefBrowser> m_Browser;

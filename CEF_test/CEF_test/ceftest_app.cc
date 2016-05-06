@@ -11,6 +11,7 @@
 #include "include/cef_browser.h"
 #include "include/cef_command_line.h"
 #include "include/wrapper/cef_helpers.h"
+#include "include/wrapper/cef_closure_task.h"
 
 #ifdef _WIN32
 #error 
@@ -22,6 +23,8 @@
 #include "CoreFoundation/CoreFoundation.h"
 #endif
 
+// global variable
+static CefTestApp *p_app    =   NULL;
 
 
 
@@ -51,9 +54,63 @@ void CefTestApp::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 
 
 //
-CefTestApp::CefTestApp()
+CefTestApp::CefTestApp() :
+    _is_close(false)
 {
+    if( p_app != NULL )
+        printf("error\n");
+    p_app   =   this;
 }
+
+
+//
+CefTestApp*     CefTestApp::get_instance()
+{
+    if( p_app == NULL )
+        printf("error\n");
+    return  p_app;
+}
+
+
+//
+bool    CefTestApp::DoClose( CefRefPtr<CefBrowser> browser )
+{
+    CEF_REQUIRE_UI_THREAD();
+    
+    // Closing the main window requires special handling. See the DoClose()
+    // documentation in the CEF header for a detailed destription of this
+    // process.
+    if ( true || m_Browser == NULL )
+    {
+        // Set a flag to indicate that the window close should be allowed.
+        _is_close = true;
+    }
+    
+    // Allow the close. For windowed browsers this will result in the OS close
+    // event being sent.
+    return false;
+}
+
+
+//
+void    CefTestApp::CloseAllBrowsers(bool force_close)
+{
+    if (!CefCurrentlyOn(TID_UI))
+    {
+        // Execute on the UI thread.
+        CefPostTask(TID_UI, base::Bind(&CefTestApp::CloseAllBrowsers, this, force_close));
+        return;
+    }
+    
+    if (m_Browser == NULL)
+        return;
+    
+    m_Browser->GetHost()->CloseBrowser(force_close);
+    //BrowserList::const_iterator it = browser_list_.begin();
+    //for (; it != browser_list_.end(); ++it)
+      //  (*it)->GetHost()->CloseBrowser(force_close);
+}
+
 
 
 //

@@ -54,7 +54,7 @@ int RunMain(int argc, char* argv[])
 // Entry point function for sub-processes.
 int main(int argc, char* argv[])
 {
-    printf("enter helper.\n");
+    //printf("enter helper.\n");
     
     // Provide CEF with command-line arguments.
     //CefMainArgs main_args(argc, argv);
@@ -66,7 +66,6 @@ int main(int argc, char* argv[])
         printf("renderer\n");
     else
         printf("other\n");*/
-    
     
     // Execute the sub-process.
     return RunMain( argc, argv );
