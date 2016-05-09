@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6DF6A2621CCF4CD000EA4C83"
+               BlueprintIdentifier = "6DAE4C951CE0637700B03789"
                BuildableName = "CEF_test Helper.app"
                BlueprintName = "CEF_test Helper"
                ReferencedContainer = "container:CEF_test.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6DF6A2621CCF4CD000EA4C83"
+            BlueprintIdentifier = "6DAE4C951CE0637700B03789"
             BuildableName = "CEF_test Helper.app"
             BlueprintName = "CEF_test Helper"
             ReferencedContainer = "container:CEF_test.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6DF6A2621CCF4CD000EA4C83"
+            BlueprintIdentifier = "6DAE4C951CE0637700B03789"
             BuildableName = "CEF_test Helper.app"
             BlueprintName = "CEF_test Helper"
             ReferencedContainer = "container:CEF_test.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6DF6A2621CCF4CD000EA4C83"
+            BlueprintIdentifier = "6DAE4C951CE0637700B03789"
             BuildableName = "CEF_test Helper.app"
             BlueprintName = "CEF_test Helper"
             ReferencedContainer = "container:CEF_test.xcodeproj">

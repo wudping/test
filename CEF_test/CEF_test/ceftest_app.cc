@@ -48,11 +48,6 @@ void CefTestApp::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 
 
 
-
-
-
-
-
 //
 CefTestApp::CefTestApp() :
     _is_close(false)
@@ -80,7 +75,7 @@ bool    CefTestApp::DoClose( CefRefPtr<CefBrowser> browser )
     // Closing the main window requires special handling. See the DoClose()
     // documentation in the CEF header for a detailed destription of this
     // process.
-    if ( true || m_Browser == NULL )
+    if ( m_Browser != NULL )
     {
         // Set a flag to indicate that the window close should be allowed.
         _is_close = true;
@@ -219,4 +214,25 @@ void CefTestApp::send_message_back()
     
     printf("end send back.\n");
 }
+
+
+//
+void CefTestApp::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
+    CEF_REQUIRE_UI_THREAD();
+    
+    // Remove from the list of existing browsers.
+    /*BrowserList::iterator bit = browser_list_.begin();
+    for (; bit != browser_list_.end(); ++bit) {
+        if ((*bit)->IsSame(browser)) {
+            browser_list_.erase(bit);
+            break;
+        }
+    }*/
+    
+    if (m_Browser == NULL) {
+        // All browser windows have closed. Quit the application message loop.
+        CefQuitMessageLoop();
+    }
+}
+
 
