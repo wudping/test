@@ -24,7 +24,9 @@ void CefTestRenderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<
     CefRefPtr<CefV8Handler> handler = this;
     
     // Create a function.
-    CefRefPtr<CefV8Value> function = CefV8Value::CreateFunction("ChangeTextInJS", handler);
+    CefRefPtr<CefV8Value> function1 = CefV8Value::CreateFunction("JS_btn_1", handler);
+    CefRefPtr<CefV8Value> function2 = CefV8Value::CreateFunction("JS_btn_2", handler);
+    CefRefPtr<CefV8Value> function3 = CefV8Value::CreateFunction("JS_btn_3", handler);
     
     // Create a new object
     CefRefPtr<CefV8Value> cpp = CefV8Value::CreateObject(NULL);
@@ -33,8 +35,9 @@ void CefTestRenderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<
     window->SetValue("cpp", cpp, V8_PROPERTY_ATTRIBUTE_NONE);
     
     // Add the function to the object
-    cpp->SetValue("ChangeTextInJS", function, V8_PROPERTY_ATTRIBUTE_NONE);
-
+    cpp->SetValue("JS_btn_1", function1, V8_PROPERTY_ATTRIBUTE_NONE);
+    cpp->SetValue("JS_btn_2", function2, V8_PROPERTY_ATTRIBUTE_NONE);
+    cpp->SetValue("JS_btn_3", function3, V8_PROPERTY_ATTRIBUTE_NONE);
 }
 
 
@@ -80,10 +83,10 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
 {
     printf("Execute\n");
     
-    if (name == "ChangeTextInJS")
+    if (name == "JS_btn_1")
     {
+        printf("JS_btn_1\n");
         send_process_message_test();
-        
         
         if (arguments.size() == 1 && arguments[0]->IsString())
         {
@@ -95,12 +98,9 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
                 return true;
             }
             
-            
             CefRefPtr<CefFrame> frame = m_browser->GetMainFrame();
             
-            
             std::string jscall = "ChangeText('";
-            
             
             jscall += text;
             jscall += "');";
@@ -113,6 +113,50 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
              * you can use any CefV8Value, what means you can return arrays, objects or whatever you can create with CefV8Value::Create* methods
              */
             
+            return true;
+        }
+    }
+    else if( name == "JS_btn_2" )
+    {
+        printf("JS_btn_2\n");
+        
+        if (arguments.size() == 1 && arguments[0]->IsString())
+        {
+            CefString text = arguments[0]->GetStringValue();
+            
+            if( m_browser.get() == NULL )
+            {
+                printf("NULL ptr\n");
+                return true;
+            }
+            
+            CefRefPtr<CefFrame> frame = m_browser->GetMainFrame();
+            
+            std::string jscall = "ChangeText_2('";
+            
+            jscall += text;
+            jscall += "');";
+            
+            frame->ExecuteJavaScript(jscall, frame->GetURL(), 0);
+            
+            return true;
+        }
+    }
+    else if( name == "JS_btn_3" )
+    {
+        printf("JS_btn_3\n");
+        
+        if (arguments.size() == 1 && arguments[0]->IsString())
+        {
+            CefString text = arguments[0]->GetStringValue();
+            
+            if( m_browser.get() == NULL )
+            {
+                printf("NULL ptr\n");
+                return true;
+            }
+            
+            printf("str = %s", text.ToString().c_str() );
             return true;
         }
     }

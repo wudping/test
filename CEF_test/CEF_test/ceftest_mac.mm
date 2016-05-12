@@ -117,6 +117,9 @@
     
     if ( handler && !handler->is_closing() )
         handler->CloseAllBrowsers(false);
+    
+    // force exit
+    //[[NSThread mainThread] exit];
 }
 
 
@@ -149,7 +152,6 @@ int main(int argc, char* argv[])
 
     // Specify CEF global settings here.
     CefSettings settings;
-    
     
 
     // SimpleApp implements application-level callbacks for the browser process.

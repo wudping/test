@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DA585A91CE075D700611923 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DAE4BC11CE0606100B03789 /* MainMenu.xib */; };
 		6DAE4BC01CE0606100B03789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DAE4BBF1CE0606100B03789 /* Assets.xcassets */; };
-		6DAE4BC31CE0606100B03789 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DAE4BC11CE0606100B03789 /* MainMenu.xib */; };
 		6DAE4BCE1CE0612600B03789 /* cef_app.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE4BCA1CE0612600B03789 /* cef_app.mm */; };
 		6DAE4BCF1CE0612600B03789 /* ceftest_app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE4BCB1CE0612600B03789 /* ceftest_app.cc */; };
 		6DAE4BD01CE0612600B03789 /* ceftest_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE4BCD1CE0612600B03789 /* ceftest_mac.mm */; };
@@ -16,8 +16,6 @@
 		6DAE4C8C1CE0616D00B03789 /* libcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DAE4C8A1CE0616D00B03789 /* libcef_dll_wrapper.a */; };
 		6DAE4C8E1CE0632200B03789 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DAE4C8D1CE0632200B03789 /* AppKit.framework */; };
 		6DAE4C901CE0634000B03789 /* Chromium Embedded Framework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DAE4BD21CE0616D00B03789 /* Chromium Embedded Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6DAE4C9F1CE0637700B03789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DAE4C9E1CE0637700B03789 /* Assets.xcassets */; };
-		6DAE4CA21CE0637700B03789 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DAE4CA01CE0637700B03789 /* MainMenu.xib */; };
 		6DAE4CAC1CE063E800B03789 /* ceftest_other.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE4CA71CE063E800B03789 /* ceftest_other.cpp */; };
 		6DAE4CAD1CE063E800B03789 /* ceftest_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE4CA91CE063E800B03789 /* ceftest_renderer.cpp */; };
 		6DAE4CAE1CE063E800B03789 /* process_helper_mac.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE4CAB1CE063E800B03789 /* process_helper_mac.cc */; };
@@ -252,8 +250,6 @@
 		6DAE4C8A1CE0616D00B03789 /* libcef_dll_wrapper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcef_dll_wrapper.a; sourceTree = "<group>"; };
 		6DAE4C8D1CE0632200B03789 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6DAE4C961CE0637700B03789 /* CEF_test Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CEF_test Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DAE4C9E1CE0637700B03789 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6DAE4CA11CE0637700B03789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		6DAE4CA31CE0637700B03789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DAE4CA71CE063E800B03789 /* ceftest_other.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ceftest_other.cpp; sourceTree = "<group>"; };
 		6DAE4CA81CE063E800B03789 /* ceftest_other.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ceftest_other.h; sourceTree = "<group>"; };
@@ -572,8 +568,6 @@
 				6DAE4CA91CE063E800B03789 /* ceftest_renderer.cpp */,
 				6DAE4CAA1CE063E800B03789 /* ceftest_renderer.h */,
 				6DAE4CAB1CE063E800B03789 /* process_helper_mac.cc */,
-				6DAE4C9E1CE0637700B03789 /* Assets.xcassets */,
-				6DAE4CA01CE0637700B03789 /* MainMenu.xib */,
 				6DAE4CA31CE0637700B03789 /* Info.plist */,
 				6DAE4C9B1CE0637700B03789 /* Supporting Files */,
 			);
@@ -671,7 +665,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DAE4BC01CE0606100B03789 /* Assets.xcassets in Resources */,
-				6DAE4BC31CE0606100B03789 /* MainMenu.xib in Resources */,
+				6DA585A91CE075D700611923 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,8 +673,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DAE4C9F1CE0637700B03789 /* Assets.xcassets in Resources */,
-				6DAE4CA21CE0637700B03789 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,14 +745,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				6DAE4BC21CE0606100B03789 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		6DAE4CA01CE0637700B03789 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6DAE4CA11CE0637700B03789 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
