@@ -55,8 +55,14 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    void cheate_socket();
+    void read_socket();
+
 
 private:
+    int skt;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Juce_testAudioProcessor)
 };

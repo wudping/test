@@ -11,14 +11,106 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include <pthread.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <string.h>
+
+/*
+    IPC https://samtsai.org/2016/05/07/066-juce-diary-11-inter-process-communication/
+    InterprocessConnection
+    ChildProcessMaster
+    ChildProcessSlave
+ 
+    socket
+    http://www.linuxhowtos.org/C_C++/socket.htm
+ */
+
+
+void*   cef_func( void *ptr )
+{
+    printf("test");
+    system("/Users/hidog/code/test/JUCE_test/CEF_test.app/Contents/MacOS/CEF_test");
+    
+    pthread_exit(NULL);
+}
+
+void*   skc_reader_helper( void *ptr )
+{
+    Juce_testAudioProcessor *jt = (Juce_testAudioProcessor*)ptr;
+    jt->read_socket();
+    
+    pthread_exit(NULL);
+}
+
 
 //==============================================================================
 Juce_testAudioProcessor::Juce_testAudioProcessor()
 {
+    pthread_t thr;
+    pthread_create( &thr, NULL , cef_func , NULL );
+    cheate_socket();
 }
 
 Juce_testAudioProcessor::~Juce_testAudioProcessor()
 {
+}
+
+
+
+void Juce_testAudioProcessor::read_socket()
+{
+    char buffer[256];
+    int n;
+    
+    while(true)
+    {
+        bzero(buffer,256);
+    
+        n = read( skt, buffer, 255 );
+        if (n < 0)
+            printf("ERROR reading from socket");
+    
+        printf("Here is the message: %s\n",buffer);
+    }
+}
+
+
+
+
+//
+void Juce_testAudioProcessor::cheate_socket()
+{
+    int sockfd, portno;
+    socklen_t clilen;
+    struct sockaddr_in serv_addr, cli_addr;
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0)
+        printf("ERROR opening socket");
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    
+    portno = atoi("9288");
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_port = htons(portno);
+    
+    if ( bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0 )
+        printf("ERROR on binding");
+    
+    listen( sockfd, 5 );
+    clilen = sizeof(cli_addr);
+    skt = accept( sockfd, (struct sockaddr *) &cli_addr, &clilen );
+    
+    if (skt < 0)
+        printf("ERROR on accept");
+    
+    pthread_t thr;
+    pthread_create( &thr, NULL , skc_reader_helper , this );
 }
 
 //==============================================================================

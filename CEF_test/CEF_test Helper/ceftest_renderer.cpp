@@ -7,7 +7,9 @@
 //
 CefTestRenderer::CefTestRenderer() :
     m_browser(NULL)
-{}
+{
+    create_skt();
+}
 
 
 
@@ -38,6 +40,7 @@ void CefTestRenderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<
     cpp->SetValue("JS_btn_1", function1, V8_PROPERTY_ATTRIBUTE_NONE);
     cpp->SetValue("JS_btn_2", function2, V8_PROPERTY_ATTRIBUTE_NONE);
     cpp->SetValue("JS_btn_3", function3, V8_PROPERTY_ATTRIBUTE_NONE);
+    
 }
 
 
@@ -113,6 +116,9 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
              * you can use any CefV8Value, what means you can return arrays, objects or whatever you can create with CefV8Value::Create* methods
              */
             
+            char buf[256] = "btn1 clicked.";
+            send_msg(buf);
+            
             return true;
         }
     }
@@ -139,6 +145,9 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
             
             frame->ExecuteJavaScript(jscall, frame->GetURL(), 0);
             
+            char buf[256] = "btn 2 clicked.";
+            send_msg( buf );
+            
             return true;
         }
     }
@@ -157,6 +166,11 @@ bool CefTestRenderer::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
             }
             
             printf("str = %s", text.ToString().c_str() );
+            
+            char buf[256];
+            sprintf( buf, "btn3 with msg = %s", text.ToString().c_str() );
+            send_msg( buf );
+            
             return true;
         }
     }
