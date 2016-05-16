@@ -14,11 +14,16 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
+/*
+    DocumentWindow
+    DocumentWindow::LookAndFeelMethods
+ http://stackoverflow.com/questions/3843411/getting-reference-to-the-top-most-view-window-in-ios-application
+ */
 
 //==============================================================================
 /**
 */
-class Juce_testAudioProcessorEditor  : public AudioProcessorEditor
+class Juce_testAudioProcessorEditor  : public AudioProcessorEditor , public Timer//, public KeyPress
 {
 public:
     Juce_testAudioProcessorEditor (Juce_testAudioProcessor&);
@@ -27,7 +32,11 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
-
+    
+    void timerCallback() override;
+    
+    void test_close_window();
+    
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

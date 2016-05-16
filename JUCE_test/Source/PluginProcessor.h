@@ -12,12 +12,24 @@
 #define PLUGINPROCESSOR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+//#include "PluginEditor.h"
+
+
+/*
+ http://stackoverflow.com/questions/11444261/objective-c-how-to-put-a-close-button-in-window
+ NSWindow *window = [[NSApplication sharedApplication] keyWindow];
+ [window close];
+ 
+ NSWindow *window = [[NSApplication sharedApplication] keyWindow];
+ [window performClose:sender];
+ 
+ */
 
 
 //==============================================================================
 /**
 */
-class Juce_testAudioProcessor  : public AudioProcessor
+class Juce_testAudioProcessor  : public AudioProcessor, public Timer
 {
 public:
     //==============================================================================
@@ -56,12 +68,21 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    void cheate_socket();
+    
+    
+
+    
+    void create_socket();
     void read_socket();
+    
+    
+    
+    void timerCallback() override;
 
 
 private:
     int skt;
+
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Juce_testAudioProcessor)

@@ -51,9 +51,12 @@ void*   skc_reader_helper( void *ptr )
 //==============================================================================
 Juce_testAudioProcessor::Juce_testAudioProcessor()
 {
-    pthread_t thr;
-    pthread_create( &thr, NULL , cef_func , NULL );
-    cheate_socket();
+    //pthread_t thr;
+    //pthread_create( &thr, NULL , cef_func , NULL );
+    //create_socket();
+    printf("test 1");
+    
+    Timer::startTimer( 3000 );
 }
 
 Juce_testAudioProcessor::~Juce_testAudioProcessor()
@@ -81,9 +84,31 @@ void Juce_testAudioProcessor::read_socket()
 
 
 
+void Juce_testAudioProcessor::timerCallback()
+{
+    printf("\ntimer!!!!!!!\n");
+    
+    //AudioProcessorEditor *ptr =  AudioProcessor::getActiveEditor();
+    //if( ptr == NULL )
+      //  printf("it is null.");
+    
+    //Component * ptr2 = ptr->getParentComponent()->getParentComponent();
+   
+    //ptr->exitModalState(-1);
+    //AudioProcessor::editorBeingDeleted( ptr );
+    //delete ptr;
+    
+    //SystemStats::getComputerName();
+    
+    //JUCEApplication::quit();
+    
+    //stopTimer();
+}
+
+
 
 //
-void Juce_testAudioProcessor::cheate_socket()
+void Juce_testAudioProcessor::create_socket()
 {
     int sockfd, portno;
     socklen_t clilen;
@@ -236,6 +261,9 @@ bool Juce_testAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* Juce_testAudioProcessor::createEditor()
 {
+    printf("test 2");
+    
+    //return NULL;
     return new Juce_testAudioProcessorEditor (*this);
 }
 

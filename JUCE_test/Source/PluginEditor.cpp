@@ -12,18 +12,45 @@
 #include "PluginEditor.h"
 
 
+
 //==============================================================================
 Juce_testAudioProcessorEditor::Juce_testAudioProcessorEditor (Juce_testAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+: AudioProcessorEditor (&p), processor (p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    AudioProcessorEditor::setSize (400, 300);
+    //setVisible(false);
+    
+    
+    printf("test 1");
+    
+    Timer::startTimer( 3000 );
 }
 
 Juce_testAudioProcessorEditor::~Juce_testAudioProcessorEditor()
 {
+    printf("test 2");
 }
+
+
+
+
+void Juce_testAudioProcessorEditor::timerCallback()
+{
+    printf("\ntimer.\n");
+    
+    KeyPress::createFromDescription( "command+N" );
+    
+    //JUCEApplication::quit();
+    //setVisible(false);
+    
+    stopTimer();
+}
+
+
+
+
 
 //==============================================================================
 void Juce_testAudioProcessorEditor::paint (Graphics& g)
@@ -32,11 +59,24 @@ void Juce_testAudioProcessorEditor::paint (Graphics& g)
 
     g.setColour (Colours::black);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    //setVisible(false);
+    
 }
 
 void Juce_testAudioProcessorEditor::resized()
 {
+    //Component* comp = this; //static_cast<Component*>(userData);
+    //Component* top = comp->getTopLevelComponent();
+    //delete top;
+    
+    //Button *btn = getCloseButton();
+    //closeButtonPressed();
+    //JUCEApplicationBase::quit();
+    
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+    //setVisible(false);
+    printf("test");
+    
 }
