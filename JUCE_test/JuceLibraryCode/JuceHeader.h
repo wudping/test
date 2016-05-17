@@ -10,8 +10,8 @@
 
 */
 
-#ifndef __APPHEADERFILE_Q1IHXW__
-#define __APPHEADERFILE_Q1IHXW__
+#ifndef __APPHEADERFILE_LTRQIB__
+#define __APPHEADERFILE_LTRQIB__
 
 #include "AppConfig.h"
 
@@ -46,4 +46,4 @@ namespace ProjectInfo
 }
 #endif
 
-#endif   // __APPHEADERFILE_Q1IHXW__
+#endif   // __APPHEADERFILE_LTRQIB__

@@ -7,6 +7,7 @@
 void Juce_testAudioProcessorEditor_test_close_window()
 {
     // andrea
+    // lastobject
     NSWindow *window = [[NSApplication sharedApplication] keyWindow];
     [window close];
 

@@ -11,8 +11,8 @@
 
 */
 
-#ifndef __JUCE_APPCONFIG_Q1IHXW__
-#define __JUCE_APPCONFIG_Q1IHXW__
+#ifndef __JUCE_APPCONFIG_LTRQIB__
+#define __JUCE_APPCONFIG_LTRQIB__
 
 //==============================================================================
 // [BEGIN_USER_CODE_SECTION]
@@ -256,7 +256,7 @@
  #define JucePlugin_ManufacturerCode       'Manu'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             'Q1ih'
+ #define JucePlugin_PluginCode             'Ltrq'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
@@ -340,4 +340,4 @@
  #define JucePlugin_AAXDisableMultiMono    0
 #endif
 
-#endif  // __JUCE_APPCONFIG_Q1IHXW__
+#endif  // __JUCE_APPCONFIG_LTRQIB__
