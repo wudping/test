@@ -51,7 +51,14 @@
 		6D5AF29B1CE9CC6000124894 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110DF9F43286C37F95696619 /* QTKit.framework */; };
 		6D5AF29C1CE9CC6000124894 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C66CEB05C4F0C998BB02CB /* QuartzCore.framework */; };
 		6D5AF29D1CE9CC6000124894 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E96C6C4E01006A7184698E /* WebKit.framework */; };
+<<<<<<< HEAD
 		6D5AF2A41CE9D17600124894 /* PluginEditor_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D5AF2A31CE9D17600124894 /* PluginEditor_mac.mm */; };
+=======
+		6D5AF2A41CE9D17600124894 /* PluginEditor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D5AF2A31CE9D17600124894 /* PluginEditor.mm */; };
+		6DB01A161CEAB9290013F23D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB01A151CEAB9290013F23D /* AppKit.framework */; };
+		6DB01A181CEABBAB0013F23D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEC3F17B463FAB66CB9F6A9 /* Cocoa.framework */; };
+		6DB01A191CEABBAF0013F23D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB01A151CEAB9290013F23D /* AppKit.framework */; };
+>>>>>>> 321dcc418567d139ef733b018dae9f3054cbdb8e
 		6E93C2EEDCD47F203E154F5F /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 161B38BA99E74942F0E4C5E9 /* CoreAudioKit.framework */; };
 		6FDBC4034B4149DAD1F4C7B5 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F367D9282A9ECC16BE32D2F /* AudioUnit.framework */; };
 		728A99E220634B0E67AD571D /* juce_video.mm in Sources */ = {isa = PBXBuildFile; fileRef = E8853ABFB80162B6BED94E9A /* juce_video.mm */; };
@@ -645,6 +652,7 @@
 		6D6E15B11CEAE20300CE508F /* PluginEditor_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginEditor_mac.h; path = ../../Source/PluginEditor_mac.h; sourceTree = "<group>"; };
 		6D965E63A242311B0CF3979F /* juce_FlacAudioFormat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_FlacAudioFormat.cpp; path = ../../../../../Downloads/JUCE/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.cpp; sourceTree = SOURCE_ROOT; };
 		6D989AAEA082966181075349 /* juce_DrawableButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DrawableButton.h; path = ../../../../../Downloads/JUCE/modules/juce_gui_basics/buttons/juce_DrawableButton.h; sourceTree = SOURCE_ROOT; };
+		6DB01A151CEAB9290013F23D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6DD2D14142BBF5C7051C9683 /* AUBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AUBuffer.cpp; path = ../../../../../Downloads/JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		6E1DDD9E5D446D7A149FDFFC /* juce_IIRFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_IIRFilter.h; path = ../../../../../Downloads/JUCE/modules/juce_audio_basics/effects/juce_IIRFilter.h; sourceTree = SOURCE_ROOT; };
 		6EA653DD202A63DAC35DE9BA /* juce_ios_Windowing.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_ios_Windowing.mm; path = ../../../../../Downloads/JUCE/modules/juce_gui_basics/native/juce_ios_Windowing.mm; sourceTree = SOURCE_ROOT; };
@@ -1378,15 +1386,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6DB01A171CEABBA60013F23D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DB01A191CEABBAF0013F23D /* AppKit.framework in Frameworks */,
+				6DB01A181CEABBAB0013F23D /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		987AB25AF30C8AE46A1D782B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D5AF2951CE9CC6000124894 /* Cocoa.framework in Frameworks */,
+				6DB01A161CEAB9290013F23D /* AppKit.framework in Frameworks */,
 				6D5AF2921CE9CC6000124894 /* Accelerate.framework in Frameworks */,
 				6D5AF2931CE9CC6000124894 /* AudioToolbox.framework in Frameworks */,
 				6FDBC4034B4149DAD1F4C7B5 /* AudioUnit.framework in Frameworks */,
 				6D5AF2941CE9CC6000124894 /* Carbon.framework in Frameworks */,
-				6D5AF2951CE9CC6000124894 /* Cocoa.framework in Frameworks */,
 				6D5AF2961CE9CC6000124894 /* CoreAudio.framework in Frameworks */,
 				6E93C2EEDCD47F203E154F5F /* CoreAudioKit.framework in Frameworks */,
 				6D5AF2971CE9CC6000124894 /* CoreMIDI.framework in Frameworks */,
@@ -1671,6 +1689,7 @@
 		239B14F81239E7296A444243 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6DB01A151CEAB9290013F23D /* AppKit.framework */,
 				8374C622ABFD7A79C3BC7D60 /* Accelerate.framework */,
 				8DE331568A5A0B15C4B7A29B /* AudioToolbox.framework */,
 				6F367D9282A9ECC16BE32D2F /* AudioUnit.framework */,
@@ -3780,6 +3799,7 @@
 			buildConfigurationList = E9E742C6C55A1185B1D98291 /* Build configuration list for PBXNativeTarget "JUCE_test (Shared Code)" */;
 			buildPhases = (
 				6CF5CC4F17EE7267E7401282 /* Sources */,
+				6DB01A171CEABBA60013F23D /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3958,15 +3978,27 @@
 		4120D7C09ACD667A861262D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_LINK_OBJC_RUNTIME = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_LINK_OBJC_RUNTIME = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
 				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INPUT_FILETYPE = automatic;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
@@ -3983,7 +4015,11 @@
 					"JUCE_APP_VERSION_HEX=0x10000",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"~/SDKs/VST3 SDK\"",
@@ -3994,14 +4030,18 @@
 				INFOPLIST_FILE = "Info-AU.plist";
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.6;
 				OTHER_LDFLAGS = (
 					"-bundle",
 					"-lJUCE_test",
 				);
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.JUCE_test;
-				SDKROOT_ppc = macosx10.5;
+				SDKROOT = macosx;
+				SDKROOT_ppc = macosx10.6;
+				STRIP_STYLE = all;
+				WARNING_CFLAGS = "-Wreorder";
 				WRAPPER_EXTENSION = component;
 			};
 			name = Release;
@@ -4023,6 +4063,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = JUCE_test;
+				SDKROOT = macosx10.11;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
@@ -4062,24 +4103,37 @@
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.JUCE_test;
-				SDKROOT_ppc = macosx10.5;
+				SDKROOT_ppc = macosx10.6;
 			};
 			name = Release;
 		};
 		6907DEBF579AF4F291E6A83F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_LINK_OBJC_RUNTIME = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_LINK_OBJC_RUNTIME = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = automatic;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
@@ -4094,8 +4148,14 @@
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
 					"JUCE_APP_VERSION=1.0.0",
 					"JUCE_APP_VERSION_HEX=0x10000",
+					MACOS,
 				);
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"~/SDKs/VST3 SDK\"",
@@ -4106,14 +4166,18 @@
 				INFOPLIST_FILE = "Info-AU.plist";
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.6;
 				OTHER_LDFLAGS = (
 					"-bundle",
 					"-lJUCE_test",
 				);
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.JUCE_test;
-				SDKROOT_ppc = macosx10.5;
+				SDKROOT = macosx;
+				SDKROOT_ppc = macosx10.6;
+				STRIP_STYLE = all;
+				WARNING_CFLAGS = "-Wreorder";
 				WRAPPER_EXTENSION = component;
 			};
 			name = Debug;
@@ -4139,6 +4203,7 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PRODUCT_NAME = JUCE_test;
+				SDKROOT = macosx10.11;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
@@ -4280,9 +4345,10 @@
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.JUCE_test;
-				SDKROOT_ppc = macosx10.5;
+				SDKROOT_ppc = macosx10.6;
 			};
 			name = Debug;
 		};
