@@ -11,6 +11,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include "PluginEditor_mac.h"
+
 
 
 //==============================================================================
@@ -44,6 +46,7 @@ void Juce_testAudioProcessorEditor::timerCallback()
     
     //JUCEApplication::quit();
     //setVisible(false);
+    Juce_testAudioProcessorEditor_test_close_window();
     
     stopTimer();
 }
