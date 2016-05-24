@@ -23,7 +23,7 @@
 //==============================================================================
 /**
 */
-class Juce_testAudioProcessorEditor  : public AudioProcessorEditor , public Timer//, public KeyPress
+class Juce_testAudioProcessorEditor  : public AudioProcessorEditor , public Timer
 {
 public:
     Juce_testAudioProcessorEditor (Juce_testAudioProcessor&);

@@ -14,6 +14,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 //#include "PluginEditor.h"
 
+#define LOG printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__ )
+
 
 /*
  http://stackoverflow.com/questions/11444261/objective-c-how-to-put-a-close-button-in-window

@@ -33,7 +33,7 @@
 
 void*   cef_func( void *ptr )
 {
-    printf("test");
+    LOG;
     system("/Users/hidog/code/test/JUCE_test/CEF_test.app/Contents/MacOS/CEF_test");
     
     pthread_exit(NULL);
@@ -54,7 +54,7 @@ Juce_testAudioProcessor::Juce_testAudioProcessor()
     //pthread_t thr;
     //pthread_create( &thr, NULL , cef_func , NULL );
     //create_socket();
-    printf("test 1");
+    LOG;
     
     Timer::startTimer( 3000 );
 }
@@ -86,7 +86,7 @@ void Juce_testAudioProcessor::read_socket()
 
 void Juce_testAudioProcessor::timerCallback()
 {
-    printf("\ntimer!!!!!!!\n");
+    LOG;
     
     //AudioProcessorEditor *ptr =  AudioProcessor::getActiveEditor();
     //if( ptr == NULL )
@@ -261,7 +261,7 @@ bool Juce_testAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* Juce_testAudioProcessor::createEditor()
 {
-    printf("test 2");
+    LOG;
     
     //return NULL;
     return new Juce_testAudioProcessorEditor (*this);

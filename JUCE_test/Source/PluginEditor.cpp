@@ -25,14 +25,14 @@ Juce_testAudioProcessorEditor::Juce_testAudioProcessorEditor (Juce_testAudioProc
     //setVisible(false);
     
     
-    printf("test 1");
+    LOG;
     
     Timer::startTimer( 3000 );
 }
 
 Juce_testAudioProcessorEditor::~Juce_testAudioProcessorEditor()
 {
-    printf("test 2");
+    LOG;
 }
 
 
@@ -40,15 +40,18 @@ Juce_testAudioProcessorEditor::~Juce_testAudioProcessorEditor()
 
 void Juce_testAudioProcessorEditor::timerCallback()
 {
-    printf("\ntimer.\n");
+    LOG;
     
-    KeyPress::createFromDescription( "command+N" );
+    //KeyPress::createFromDescription( "command+N" );
     
     //JUCEApplication::quit();
     //setVisible(false);
-    Juce_testAudioProcessorEditor_test_close_window();
     
-    stopTimer();
+    if( Component::isShowing() == true )
+    {
+        Juce_testAudioProcessorEditor_test_close_window();
+        stopTimer();
+    }
 }
 
 
@@ -80,6 +83,6 @@ void Juce_testAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     //setVisible(false);
-    printf("test");
+    LOG;
     
 }
