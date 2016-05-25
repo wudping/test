@@ -229,4 +229,16 @@ void c11_sample_3()
 
 
 
+void c11_sample_4()
+{
+    // left value, right value, move sema
+    
+    int &&a = 13;
+    printf( "%d\n", a );
+    a = 4;
+    printf( "%p\n", &a );
+    
+}
+
+
 
