@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6D5DFBF31CCF319C00FBDEE1"
+               BlueprintIdentifier = "6DAE4BB51CE0606100B03789"
                BuildableName = "CEF_test.app"
                BlueprintName = "CEF_test"
                ReferencedContainer = "container:CEF_test.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6D5DFBF31CCF319C00FBDEE1"
+            BlueprintIdentifier = "6DAE4BB51CE0606100B03789"
             BuildableName = "CEF_test.app"
             BlueprintName = "CEF_test"
             ReferencedContainer = "container:CEF_test.xcodeproj">
@@ -51,20 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         BundleIdentifier = "CEF-test.CEF-test"
-         FilePath = "/Users/hidog/code/test/CEF_test/CEF_test/Debug/CEF_test.app">
-      </PathRunnable>
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6D5DFBF31CCF319C00FBDEE1"
+            BlueprintIdentifier = "6DAE4BB51CE0606100B03789"
             BuildableName = "CEF_test.app"
             BlueprintName = "CEF_test"
             ReferencedContainer = "container:CEF_test.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -78,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6D5DFBF31CCF319C00FBDEE1"
+            BlueprintIdentifier = "6DAE4BB51CE0606100B03789"
             BuildableName = "CEF_test.app"
             BlueprintName = "CEF_test"
             ReferencedContainer = "container:CEF_test.xcodeproj">

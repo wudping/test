@@ -8,6 +8,7 @@
 #include "ceftest_app.h"
 //#include "cefsimple/simple_handler.h"
 
+#include "include/cef_browser.h"
 #include "include/cef_application_mac.h"
 #include "include/wrapper/cef_helpers.h"
 
@@ -112,9 +113,13 @@
 
 - (void)tryToTerminateApplication:(NSApplication*)app
 {
-    //SimpleHandler* handler = SimpleHandler::GetInstance(); // definei in simpler_handler.h
-    //if (handler && !handler->IsClosing())
-      //  handler->CloseAllBrowsers(false);
+    CefTestApp* handler = CefTestApp::get_instance(); // definei in simpler_handler.h
+    
+    if ( handler && !handler->is_closing() )
+        handler->CloseAllBrowsers(false);
+    
+    // force exit
+    //[[NSThread mainThread] exit];
 }
 
 
@@ -127,9 +132,15 @@
 
 
 
+
+
+
+
 // Entry point function for the browser process.
 int main(int argc, char* argv[])
 {
+    printf("argv = %s %s %s",argv[0], argv[1], argv[2]);
+    
     // Provide CEF with command-line arguments.
     CefMainArgs main_args(argc, argv);
 
@@ -141,7 +152,6 @@ int main(int argc, char* argv[])
 
     // Specify CEF global settings here.
     CefSettings settings;
-    
     
 
     // SimpleApp implements application-level callbacks for the browser process.

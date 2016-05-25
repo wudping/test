@@ -11,17 +11,20 @@
 #include "include/cef_render_process_handler.h"
 
 #include <cstring>
+#include <list>
 
 
 
 
 
 // Implement application-level callbacks for the browser process.
-class CefTestApp : public CefApp, public CefBrowserProcessHandler, public CefClient, /*public CefV8Handler,*/ public CefRenderProcessHandler, public CefLifeSpanHandler, public CefLoadHandler, public CefDisplayHandler
+class CefTestApp : public CefApp, public CefBrowserProcessHandler, public CefClient, public CefRenderProcessHandler, public CefLifeSpanHandler, public CefLoadHandler, public CefDisplayHandler
 {
 
 public:
     CefTestApp();
+    
+    static CefTestApp* get_instance();
 
     // CefClient methods:
     virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE
@@ -54,15 +57,30 @@ public:
 
     //
     virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+    virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
     virtual CefRefPtr<CefBrowser>   get_browser() 
     {
         return  m_Browser;
     }
 
+    bool    is_closing() { return _is_close; }
+
+    virtual bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+
+    void    CloseAllBrowsers(bool force_close);
+
+    bool OnProcessMessageReceived( CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+
+    void send_message_back();
+
+    // CefDisplayHandler methods:
+    virtual void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
 
 
 private:
+
+    bool    _is_close;
 
     // The child browser window
     CefRefPtr<CefBrowser> m_Browser;
