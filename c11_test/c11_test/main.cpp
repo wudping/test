@@ -13,6 +13,7 @@ int main(int argc, const char * argv[])
 {
     c11_sample_1();
     c11_sample_2();
+    c11_sample_3();
     
     return 0;
 }

@@ -15,6 +15,7 @@
 
 void c11_sample_1();
 void c11_sample_2();
+void c11_sample_3();
 
 
 // template use:  return T();   add this sample
