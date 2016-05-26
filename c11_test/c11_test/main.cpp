@@ -14,7 +14,12 @@ int main(int argc, const char * argv[])
     //c11_sample_1();
     //c11_sample_2();
     //c11_sample_3();
-    c11_sample_4();
+    //c11_sample_4();
+    //c11_sample_5();
+    //c11_sample_6();
+    c11_sample_7();
+    //c11_sample_8();
+    
     
     return 0;
 }

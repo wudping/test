@@ -3,6 +3,7 @@
 #include <vector>
 #include <list>
 #include <deque>
+#include <cstdlib>
 
 using namespace std;
 
@@ -229,16 +230,415 @@ void c11_sample_3()
 
 
 
+int& left_value()
+{
+    static int l_value = 0;
+    return l_value;
+}
+
+int right_value()
+{
+    static int r_value = 3;
+    cout<< r_value << endl;
+    return r_value;
+}
+
+void ref_test_1( int &x )
+{
+    cout << ++x << endl;
+}
+
+void ref_test_2( const int&x )
+{
+    cout << x << endl;
+}
+
+void ref_test_3( int&& x)
+{
+    cout << ++x << endl;
+}
+
+int ref_test_4()
+{
+    return  -4723;
+}
+
+// left value, right value
+// http://eli.thegreenplace.net/2011/12/15/understanding-lvalues-and-rvalues-in-c-and-c
 void c11_sample_4()
 {
-    // left value, right value, move sema
+    // left value
+    int i = 42;
+    int *p = &i; // i is left value
+    cout << *p << endl;
     
-    int &&a = 13;
-    printf( "%d\n", a );
-    a = 4;
-    printf( "%p\n", &a );
+    int *p2 = &left_value(); // left_value() is left value.
+    *p2 = 55;
+    cout << left_value() << endl; // l_value is 55 now.
     
+    int *p3 = new int[3]{1,2,3};
+    cout << *(p3 + 1) << endl; // p3+1 is right value, *(p3+1) is left value.
+    
+    
+    
+    // right value
+    //int *p3 = &right_value(); // compile fail. it is right value.
+    int j = 925;  // 925 is right value.  (tmp value)
+    int a = 3, b = 4; // a, b is left value.
+    int c = a + b; // a+b is right value.
+    cout << j << " " << c << endl;
+    //int *q = &(j + 1); // compile error. j+1 is right value.
+    
+    std::string str = "abc";
+    std::string& str2 = str; // left value reference
+    //std::string& str3 = "abc";  // compile fail. right value can't be referenced.
+    const std::string& str3 = "abc"; // success. right value can be reference by const .
+    cout << str2 << " " << str3 << endl;
+    
+    
+    
+    // reference
+    int r = 10;
+    //int &r1 = 3; // compile fail.
+    int &r2 = r;
+    //int &&r3 = r; // compile fail.
+    int &&r4 = 3;
+    
+    cout << r2 << " " << r4 << endl;
+    r2++; r4++;
+    cout << r << " " << r4 << endl;
+    
+    int rr1 = 3, rr2 = 4;
+    //int &rr3 = rr1 + rr2; // compile fail.
+    int &&rr4 = rr1 + rr2;
+    cout << rr4 << endl;
+    rr4 += 1000;
+    cout << rr4 << " " << rr1 << " " << rr2 << " " << endl;
+    
+    
+    // function parameter
+    ref_test_1( r );
+    //ref_test_1( 3 ); // compile fail
+    
+    ref_test_2( r );
+    ref_test_2( 3 );
+    
+    //ref_test_3( r ); // compile fail.
+    ref_test_3( 3 );
+    
+    cout << r << endl;
+    
+    int rrr1 = ref_test_4();
+    //int &rrr2 = ref_test_4(); // compile fail.
+    const int &rrr3 = ref_test_4();
+    int &&rrr4 = ref_test_4();
+    
+    cout << rrr1 << rrr3 << rrr4 << endl;
 }
 
 
 
+
+class C1
+{
+public:
+    C1() : ptr(NULL), size(0)
+    {
+        cout << "C1(), addr = " << this << endl;
+    }
+    
+    C1( int _s )
+    {
+        cout << "C1(int), addr = " << this << endl;
+        size = _s;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   rand() % 10000;
+    }
+    
+    C1( const C1& _c )
+    {
+        cout << "C1(const C1&), addr = " << this << endl;
+        size = _c.size;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   _c.ptr[i];
+    }
+    
+    ~C1()
+    {
+        cout << "~C1(), addr = " << this << endl;
+        delete [] ptr;
+    }
+    
+    C1& operator = ( const C1& _c )
+    {
+        cout << "C1 operator = , addr = " << this << " , _c addr = " << &_c << endl;
+        
+        if( size != 0 && ptr != NULL )
+            delete [] ptr;
+        
+        size = _c.size;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i] = _c.ptr[i];
+        
+        return *this;
+    }
+    
+    int size;
+    int *ptr;
+};
+
+
+C1 C1_test_1( C1 c )
+{
+    cout << "c addr = " << &c << endl;
+    return C1( c.size + 10 );
+    
+    /*
+     note: Return value optimization (RVO),
+     result is difference from 
+     C1 tmp;
+     ...
+     return tmp;
+     */
+}
+
+
+//  Move constructor and move assignment operator
+void c11_sample_5()
+{
+    C1 c1(10000);
+    cout << c1.ptr[0] << endl;
+    cout << "c1 addr = " << &c1 << endl;
+    
+    C1 c2;
+    cout << "c2 addr = " << &c2 << endl;
+    c2 = C1_test_1( c1 );
+    cout << c2.ptr[0] << endl;
+    
+    /* 
+        copy operator = 
+        make more one copying, but the copy source will destructor soon.
+        can we boost in this operator?
+     */
+   
+}
+
+
+
+
+
+
+
+
+
+void c11_sample_6()
+{
+    string str = "hello";
+    vector<string> vec;
+    
+    vec.push_back(str);
+    cout << vec[0] << " " << str << endl;
+    
+    vec.push_back( move(str) );
+    cout << vec[1] << " " << str << endl;
+}
+
+
+
+
+
+
+
+
+class C2
+{
+public:
+    C2() : ptr(NULL), size(0)
+    {
+        //cout << "C2(), addr = " << this << endl;
+    }
+    
+    C2( int _s )
+    {
+        //cout << "C2(int), addr = " << this << endl;
+        size = _s;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   rand() % 10000;
+    }
+    
+    C2( const C2& _c )
+    {
+        //cout << "C2(const C2&), addr = " << this << endl;
+        size = _c.size;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   _c.ptr[i];
+    }
+    
+    
+    ~C2()
+    {
+        //cout << "~C2(), addr = " << this << endl;
+        delete [] ptr;
+    }
+    
+    C2& operator = ( const C2& _c )
+    {
+        cout << "C2 operator = , addr = " << this << " , _c addr = " << &_c << endl;
+        
+        if( size != 0 && ptr != NULL )
+            delete [] ptr;
+        
+        size = _c.size;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i] = _c.ptr[i];
+        
+        return *this;
+    }
+    
+    
+    // move assignment
+    C2& operator = ( C2&& _c )
+    {
+        cout << "C2 move operator = , addr = " << this << endl;
+        
+        ptr = _c.ptr;
+        size = _c.size;
+        
+        _c.ptr = nullptr;
+        _c.size = 0;
+        
+        return *this;
+    }
+    
+    
+    int size;
+    int *ptr;
+};
+
+
+C2 C2_test_1( C2 c )
+{
+    //cout << "c addr = " << &c << endl;
+    return C2( c.size + 10 );
+}
+
+
+void c11_sample_7()
+{
+    C2 c2a(10000);
+    cout << c2a.ptr[0] << endl;
+    //cout << "c2a addr = " << &c2a << endl;
+    
+    C2 c2b;
+    //cout << "c2b addr = " << &c2b << endl;
+    c2b = C2_test_1( c2a );
+    cout << c2b.ptr[0] << endl;
+    
+    c2b = c2a; // call traditional operator =
+    cout << c2b.ptr[0] << endl;
+    
+    c2b = C2(321);  // call move assignment
+    cout << c2b.size << endl;
+    
+    /*
+     C2 move operator = , addr = 0x7fff5fbff7a0
+     */
+}
+
+
+
+
+
+
+
+
+class D1
+{
+public:
+    D1() : ptr(NULL), size(0)
+    {
+        cout << "D1(), addr = " << this << endl;
+    }
+    
+    D1( int _s )
+    {
+        cout << "D1(int), addr = " << this << endl;
+        size = _s;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   rand() % 10000;
+    }
+    
+    D1( const D1& _d )
+    {
+        cout << "D1(const D1&), addr = " << this << endl;
+        size = _d.size;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   _d.ptr[i];
+    }
+    
+    // move constructor
+    D1( D1&& _d )
+    {
+        cout << "move constructor D1(D1&&), addr = " << this << endl;
+        size = _d.size;
+        ptr = _d.ptr;
+        
+        _d.ptr = nullptr;
+        _d.size = 0;
+    }
+    
+    ~D1()
+    {
+        cout << "~D1(), addr = " << this << endl;
+        delete [] ptr;
+    }
+    
+    
+    D1 operator + ( const D1& _d )
+    {
+        return D1( _d.size + size );
+    }
+
+    
+    int size;
+    int *ptr;
+};
+
+
+
+D1 move_ct_test_1( D1 d )
+{
+    if( d.size > 0 )
+        d.ptr[0]   =   1234;
+    else
+    {
+        
+    }
+    
+    return  d;
+}
+
+
+
+
+void c11_sample_8()
+{
+    D1 d1(1000), d2(1500);
+    D1 d3( d1 + d2 );
+    cout << d1.ptr[0] << " " << d2.ptr[0] << " " << d3.ptr[0] << endl;
+    /*
+        this code will not run into move constructor.
+        I gauss the reason is RVO.
+     */
+    
+    D1 dd1 = std::move(d1);
+    cout << d1.size << " " << dd1.size << endl;
+}
