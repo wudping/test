@@ -10,6 +10,10 @@
     http://jxq.me/2012/06/06/译详解c右值引用/   中譯
     https://codinfox.github.io/dev/2014/06/03/move-semantic-perfect-forward/   移动语义（move semantic）和完美转发（perfect forward）   部分翻譯有錯
  
+    perfect forward
+    http://thbecker.net/articles/rvalue_references/section_08.html
+ http://thbecker.net/articles/rvalue_references/section_07.html
+ http://eli.thegreenplace.net/2014/perfect-forwarding-and-universal-references-in-c/
  
  
  http://harttle.com/2015/10/11/cpp11-rvalue.html
@@ -34,31 +38,7 @@
  
  http://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html
  http://www.dutor.net/index.php/2013/11/rvalue-reference-move-semantics-and-perfect-forwarding/
- 
-
- 
- ref: http://www.dutor.net/index.php/2013/11/rvalue-reference-move-semantics-and-perfect-forwarding/
- 完美轉發,移動語意可以參考這篇
- note: 加上move轉成右值,觸發move constructor.
- 
- class B {
- public:
- B(const B&) {}
- B(B&&) {}
- };
- class D : public B {
- D(const D &rhs) : B(rhs) {}
- D(D &&rhs) : B(rhs) {}
- };
- D getD();
- D d(getD());
- 
- B::B(B&&)不會調用,所以使用
- class D : public B {
- D(D &&rhs) : B(std::move(rhs)) {}
- };
- 
- 
+    
  
  http://www.ibm.com/developerworks/cn/aix/library/1307_lisl_c11/
  https://www.zhihu.com/question/22111546
@@ -74,8 +54,9 @@ void c11_sample_5();
 void c11_sample_6();
 void c11_sample_7();
 void c11_sample_8();
-
-// template use:  return T();   add this sample
+void c11_sample_9();
+void c11_sample_10();
+void c11_sample_11();
 
 
 

@@ -4,6 +4,7 @@
 #include <list>
 #include <deque>
 #include <cstdlib>
+#include <map>
 
 using namespace std;
 
@@ -162,6 +163,8 @@ public:
     A( std::initializer_list<int> list )
     {
         cout << "A(initializer_list<int>" << endl;
+        
+        // note: generally, check list.size() != 0.
         
         int count = 0;
         ptr = new int[ list.size() ];
@@ -566,14 +569,12 @@ void c11_sample_7()
 class D1
 {
 public:
-    D1() : ptr(NULL), size(0)
-    {
-        //cout << "D1(), addr = " << this << endl;
-    }
+    D1() : ptr(NULL), size(0) { cout << "constructor" << endl; }
     
     D1( int _s )
     {
         //cout << "D1(int), addr = " << this << endl;
+        // note: need check _s > 0
         size = _s;
         ptr = new int[size];
         for( int i = 0; i < size; i++ )
@@ -648,7 +649,7 @@ D1 move_ct_test_2( D1& d )
 
 
 
-D1 move_ct_test_3( D1&& d )
+D1&& move_ct_test_3( D1&& d )
 {
     if( d.size > 0 )
         d.ptr[0]   =   -1234;
@@ -658,10 +659,13 @@ D1 move_ct_test_3( D1&& d )
         d.ptr = new int[d.size];
     }
     
-    return  d;
+    return  move(d);
 }
 
-
+D1 move_ct_test_4( int n )
+{
+    return D1(n + 10);
+}
 
 
 // note: 繼承關係參考 http://en.cppreference.com/w/cpp/language/move_assignment
@@ -692,4 +696,265 @@ void c11_sample_8()
     //D1 dd6 = move_ct_test_3( d2 ); // compile fail.
     D1 dd7 = move_ct_test_3( D1(323) );
     cout << dd7.ptr[0] << endl;
+    
+    D1 dd8 = move_ct_test_4( 1000 );
+    cout << dd8.ptr[0] << endl;
+}
+
+
+
+
+
+class E
+{
+public:
+    E() : ptr(NULL), size(0)
+    {
+        cout << "constructor" << endl;
+    }
+    
+    E( int _s )
+    {
+        static int count = 1;
+        cout << "constructor" << endl;
+        size = _s;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   count++;
+    }
+    
+    E( const E& _d )
+    {
+        cout << "copy constructor"  << endl;
+        size = _d.size;
+        ptr = new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   _d.ptr[i];
+    }
+    
+    // move constructor
+    E( E&& e )
+    {
+        cout << "move constructor" << endl;
+        size = e.size;
+        ptr = e.ptr;
+        
+        e.ptr = nullptr;
+        e.size = 0;
+    }
+    
+    ~E()
+    {
+        cout << "destructor" << endl;
+        delete [] ptr;
+    }
+    
+    E& operator = (const E& e)
+    {
+        cout << "assign" << endl;
+        
+        if( size > 0 )
+            delete [] ptr;
+        
+        size    =   e.size;
+        ptr     =   new int[size];
+        for( int i = 0; i < size; i++ )
+            ptr[i]  =   e.ptr[i];
+        
+        return *this;
+    }
+    
+    E& operator = ( E&& e)
+    {
+        cout << "move assign" << endl;
+     
+        if( size > 0 )
+            delete [] ptr;
+        
+        size = e.size;
+        ptr = e.ptr;
+        
+        e.size = 0;
+        e.ptr = nullptr;
+        
+        return *this;
+    }
+
+    
+    int size;
+    int *ptr;
+    
+};
+
+
+/*E operator + ( const E& e1, const E& e2 )
+{
+    cout << "+" << endl;
+    E tmp;
+    tmp.size = e1.size < e2.size ? e1.size : e2.size;
+    tmp.ptr = new int[tmp.size];
+    
+    for( int i = 0; i < tmp.size; i++ )
+        tmp.ptr[i] = e1.ptr[i] + e2.ptr[i];
+    
+    return tmp;
+}*/
+
+
+/*
+    it will cause e1's real memory size is not equal e1.size.
+ */
+E&& operator + ( E e1, const E& e2 )
+{
+    cout << "+" << endl;
+
+    e1.size = e1.size < e2.size ? e1.size : e2.size;
+    
+    for( int i = 0; i < e1.size; i++ )
+        e1.ptr[i] += e2.ptr[i];
+    
+    return std::move(e1);
+}
+
+
+
+void c11_sample_9()
+{
+    // case 1
+    E a(1000), b(1004), c(1003), d(1001), e(1002);
+    cout << a.ptr[0] + b.ptr[0] + c.ptr[0] + d.ptr[0] + e.ptr[0] << endl;
+    
+    E sum = a + b + c + d + e;
+    cout << sum.ptr[0] << endl; // call constructor 9 times.
+    
+    /*
+     case 1:
+        constructor 9
+        destructor 9
+     
+     case 2:
+        constructor = 5
+        copy constructor = 1
+        move constructor = 4
+        destructor = 10  more by one copy constructor
+     */
+}
+
+
+
+
+class F
+{
+public:
+    F() : v{1,2,3,4,5,6,7,8,9}
+    {}
+    
+    F( int n )
+    {
+        v.resize(n);
+        for( int i = 0; i < n; i++ )
+            v[i] = rand() * 100;
+    }
+    
+    F( const F& f )
+    {
+        v   =   f.v;
+        v[0]++;
+    }
+    
+    F( F&& f )
+    {
+        v   =   move(f.v);
+        v[0] = -v[0];
+    }
+    
+    ~F(){}
+    
+    vector<int> v;
+};
+
+
+
+void c11_sample_10()
+{
+    F f1;
+    cout << f1.v[0] << endl;
+    
+    F f2(f1);
+    cout << f2.v[0] << endl;
+    
+    F f3(move(f1));
+    cout << f3.v[0] << " " << f1.v.size() << endl;
+    
+    F f4 = move(F{100});    // note: if we don't use std::move, it will not call move constructor. (RVO)
+    cout << f4.v[0] << " " << f4.v.size() << endl;
+}
+
+
+
+
+
+
+
+
+
+// don't need write pf_test_1( T&&, U&&), pf_test_1(const T&, U&&), pf_test_1(T&&, const U&), pf_test_1(const T&, const U&)
+template<typename T, typename U>
+std::pair<T, U> pf_test_1( T t, U u )
+{
+    return std::make_pair( std::forward<T>(t), std::forward<U>(u) );
+    //return std::make_pair( t, u ); // this will cause copy constructor twice. (the second in make_pair)
+}
+
+
+class G
+{
+public:
+    G() : data(0) {}
+    G(int d) : data(d) {}
+    G(const G& g) : data(g.data) { cout << "copy constructor" << endl; }
+    G(G&& g) : data(g.data) { cout << "move constructor" << endl; }
+    
+    int data;
+};
+
+
+
+void c11_sample_11()
+{
+    std::map<string,vector<int>>  m;
+    
+    m.insert( pf_test_1( std::string("test1"), std::vector<int>{1,2,3,4} ) );
+    
+    for( auto itr = m["test1"].begin(); itr != m["test1"].end(); ++itr )
+        cout << *itr << " " ;
+    cout << endl;
+    
+    std::string         str{"test2"};
+    std::vector<int>    vec = { 99, 98 };
+    m.insert( pf_test_1(str,vec) );
+    
+    for( auto itr = m["test2"].begin(); itr != m["test2"].end(); ++itr )
+        cout << *itr << " " ;
+    cout << endl;
+    
+    
+    
+    
+    std::map<string,G> m2;
+    
+    m2.insert( pf_test_1(string("1"),G(100)) );
+    cout << m2["1"].data << endl;
+    
+    m2.insert( pf_test_1( str, G(200) ) );
+    cout << m2["test2"].data << endl;
+    
+    G g(10);
+    m2.insert( pf_test_1(string("2"),g) );
+    cout << m2["2"].data << endl;
+    
+    str = "1234";
+    g.data = 20;
+    m2.insert( pf_test_1(str,g) ); // note: call move constructor twice by std::pair.
+    cout << m2["1234"].data << endl;
 }
