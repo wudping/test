@@ -459,10 +459,12 @@ public:
     C2() : ptr(NULL), size(0)
     {
         //cout << "C2(), addr = " << this << endl;
+        cout << "constructor C2()" << endl;
     }
     
     C2( int _s )
     {
+        cout << "constructor C2(int)" << endl;
         //cout << "C2(int), addr = " << this << endl;
         size = _s;
         ptr = new int[size];
@@ -472,6 +474,7 @@ public:
     
     C2( const C2& _c )
     {
+        cout << "copy constructor" << endl;
         //cout << "C2(const C2&), addr = " << this << endl;
         size = _c.size;
         ptr = new int[size];
@@ -487,6 +490,7 @@ public:
     }
     
     C2& operator = ( const C2& _c )
+    //C2& operator = ( C2& _c )
     {
         cout << "C2 operator = , addr = " << this << " , _c addr = " << &_c << endl;
         
@@ -543,11 +547,12 @@ void c11_sample_7()
     c2b = c2a; // call traditional operator =
     cout << c2b.ptr[0] << endl;
     
-    c2b = C2(321);  // call move assignment
+    c2b = C2(321);  // call move assignment.
     cout << c2b.size << endl;
     
     /*
-     C2 move operator = , addr = 0x7fff5fbff7a0
+     if we don't define move assign, it will call assign.
+     if we define assign as C2& operator = ( C2& _c ) without const, it will compile error.
      */
 }
 
@@ -563,12 +568,12 @@ class D1
 public:
     D1() : ptr(NULL), size(0)
     {
-        cout << "D1(), addr = " << this << endl;
+        //cout << "D1(), addr = " << this << endl;
     }
     
     D1( int _s )
     {
-        cout << "D1(int), addr = " << this << endl;
+        //cout << "D1(int), addr = " << this << endl;
         size = _s;
         ptr = new int[size];
         for( int i = 0; i < size; i++ )
@@ -577,7 +582,7 @@ public:
     
     D1( const D1& _d )
     {
-        cout << "D1(const D1&), addr = " << this << endl;
+        cout << "copy constructor D1(const D1&), addr = " << this << endl;
         size = _d.size;
         ptr = new int[size];
         for( int i = 0; i < size; i++ )
@@ -597,7 +602,7 @@ public:
     
     ~D1()
     {
-        cout << "~D1(), addr = " << this << endl;
+        //cout << "~D1(), addr = " << this << endl;
         delete [] ptr;
     }
     
@@ -620,7 +625,37 @@ D1 move_ct_test_1( D1 d )
         d.ptr[0]   =   1234;
     else
     {
-        
+        d.size = 1;
+        d.ptr = new int[d.size];
+    }
+    
+    return  d;
+}
+
+
+D1 move_ct_test_2( D1& d )
+{
+    if( d.size > 0 )
+        d.ptr[0]   =   9876;
+    else
+    {
+        d.size = 1;
+        d.ptr = new int[d.size];
+    }
+    
+    return  d;
+}
+
+
+
+D1 move_ct_test_3( D1&& d )
+{
+    if( d.size > 0 )
+        d.ptr[0]   =   -1234;
+    else
+    {
+        d.size = 1;
+        d.ptr = new int[d.size];
     }
     
     return  d;
@@ -629,6 +664,7 @@ D1 move_ct_test_1( D1 d )
 
 
 
+// note: 繼承關係參考 http://en.cppreference.com/w/cpp/language/move_assignment
 void c11_sample_8()
 {
     D1 d1(1000), d2(1500);
@@ -641,4 +677,19 @@ void c11_sample_8()
     
     D1 dd1 = std::move(d1);
     cout << d1.size << " " << dd1.size << endl;
+    
+    D1 dd2 = move_ct_test_1(d2);
+    cout << dd2.ptr[0] << endl;
+    
+    D1 dd3 = move_ct_test_1( D1(234) );
+    cout << dd3.size << endl;
+    
+    D1 dd4 = move_ct_test_2(d2); // run copy constructor. it will run copy constructor if we use D1& move_ct_test_2( D1& d )
+    cout << dd4.ptr[0] << endl;
+    
+    //D1 dd5 = move_ct_test_2( D(111) ); // compile fail.
+    
+    //D1 dd6 = move_ct_test_3( d2 ); // compile fail.
+    D1 dd7 = move_ct_test_3( D1(323) );
+    cout << dd7.ptr[0] << endl;
 }
