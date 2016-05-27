@@ -38,7 +38,7 @@ void c11_sample_1()
     cout << endl;
     
     //
-    int *ptr = new int[3]{ 5, 9, 3};
+    int *ptr = new int[3]{ 5, 9, 3 };
     for( i = 0; i < 3; i++ )
         cout << ptr[i] << " ";
     cout << endl;
@@ -659,7 +659,10 @@ D1&& move_ct_test_3( D1&& d )
         d.ptr = new int[d.size];
     }
     
-    return  move(d);
+    //return  d;  // compile fail.
+    return move(d); // compile success.
+    //return std::forward<D1>(d); //compile success.
+    //return std::forward(d); // compile fail
 }
 
 D1 move_ct_test_4( int n )
@@ -900,9 +903,9 @@ void c11_sample_10()
 
 // don't need write pf_test_1( T&&, U&&), pf_test_1(const T&, U&&), pf_test_1(T&&, const U&), pf_test_1(const T&, const U&)
 template<typename T, typename U>
-std::pair<T, U> pf_test_1( T t, U u )
+std::pair<T,U> pf_test_1( T&& t, U&& u )
 {
-    return std::make_pair( std::forward<T>(t), std::forward<U>(u) );
+    return std::make_pair<T,U>( std::forward<T>(t), std::forward<U>(u) );
     //return std::make_pair( t, u ); // this will cause copy constructor twice. (the second in make_pair)
 }
 
@@ -920,30 +923,111 @@ public:
 
 
 
+
+struct AA
+{
+    AA() : aa(0) { cout << "constructor." << endl; }
+    AA( int&& n ) : aa(n) { std::cout << "rvalue overload, n=" << n << endl; }
+    AA( const int& n ) : aa(n) { std::cout << "lvalue overload, n=" << n << endl; }
+    int aa;
+};
+
+class BB
+{
+public:
+    template<class T1, class T2, class T3>
+    BB(T1&& t1, T2&& t2, T3&& t3) :
+        a1_{std::forward<T1>(t1)},
+        a2_{std::forward<T2>(t2)},
+        a3_{std::forward<T3>(t3)}
+    {}
+    
+    // it will cause run lvalue overload.
+    /*template<class T1, class T2, class T3>
+    BB(T1&& t1, T2&& t2, T3&& t3) :
+        a1_{t1},
+        a2_{t2},
+        a3_{t3}
+    {}*/
+    
+    
+private:
+    AA a1_, a2_, a3_;
+};
+
+
+
+// U derive by u.
+template<class T, class U>
+std::unique_ptr<T> pf_test_2( U&& u )
+//std::unique_ptr<T> pf_test_2( U u ) // cause both rvalue
+{
+    return std::unique_ptr<T>( new T( std::forward<U>(u) ) );
+    //return std::unique_ptr<T>( new T(u) );  // cause all run lvalue.   ( u = 3; T(u); u is lvalue. )
+}
+
+template<class T, class... U>
+std::unique_ptr<T> pf_test_3( U&&... u )
+{
+    return std::unique_ptr<T>( new T(std::forward<U>(u)...) );
+}
+
+
+std::unique_ptr<AA> pf_test_4( int&& u )
+{
+    return std::unique_ptr<AA>( new AA( std::forward<int>(u) ) );
+}
+
+
+
+std::unique_ptr<AA> pf_test_5( const int& u )
+{
+    return std::unique_ptr<AA>( new AA( std::forward<const int&>(u) ) );
+}
+
+
 void c11_sample_11()
 {
+    
+    // official sample
+    auto p1 = pf_test_2<AA>(2); // rvalue
+    //auto p1 = make_unique_1(2); // compile error
+    //unique_ptr<AA> p1 = make_unique_1(3); // compile error
+    
+    int i = 1;
+    auto p2 = pf_test_2<AA>(i); // lvalue
+    
+    std::cout << "B\n";
+    auto t = pf_test_3<BB>(2, i, 3);
+    
+    auto p3 = pf_test_4(3);
+    //auto p4 = pf_test_4(i); // compile fail.
+    auto p5 = pf_test_5(i);
+    
+    
+    //
     std::map<string,vector<int>>  m;
     
-    m.insert( pf_test_1( std::string("test1"), std::vector<int>{1,2,3,4} ) );
+    m.insert( pf_test_1<string,vector<int>>( std::string("test1"), std::vector<int>{1,2,3,4} ) );
     
     for( auto itr = m["test1"].begin(); itr != m["test1"].end(); ++itr )
         cout << *itr << " " ;
     cout << endl;
     
-    std::string         str{"test2"};
-    std::vector<int>    vec = { 99, 98 };
-    m.insert( pf_test_1(str,vec) );
+    std::string         s{"test2"};
+    std::vector<int>    v = { 99, 98 };
+    /*m.insert( pf_test_1<string,vector<int> >( s, vector<int>{1,2,3} ) );
     
     for( auto itr = m["test2"].begin(); itr != m["test2"].end(); ++itr )
         cout << *itr << " " ;
-    cout << endl;
+    cout << endl;*/
     
     
     
-    
+#if 0
     std::map<string,G> m2;
     
-    m2.insert( pf_test_1(string("1"),G(100)) );
+    m2.insert( pf_test_1<string&&,G&&>(string("1"),G(100)) );
     cout << m2["1"].data << endl;
     
     m2.insert( pf_test_1( str, G(200) ) );
@@ -957,4 +1041,5 @@ void c11_sample_11()
     g.data = 20;
     m2.insert( pf_test_1(str,g) ); // note: call move constructor twice by std::pair.
     cout << m2["1234"].data << endl;
+#endif
 }
