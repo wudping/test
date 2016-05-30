@@ -43,6 +43,8 @@
  http://www.ibm.com/developerworks/cn/aix/library/1307_lisl_c11/
  https://www.zhihu.com/question/22111546
  
+ http://hungmingwu-blog.logdown.com/posts/14290-rvalue-reference
+ 
  追加 swap
  通常operator = 會有 *this != rhs 的問題
  可以用std::swap
@@ -61,7 +63,9 @@ void c11_sample_8();
 void c11_sample_9();
 void c11_sample_10();
 void c11_sample_11();
-
+void c11_sample_12();
+void c11_sample_13();
+void c11_swap();
 
 
 #endif

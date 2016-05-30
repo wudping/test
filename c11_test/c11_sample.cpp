@@ -5,6 +5,8 @@
 #include <deque>
 #include <cstdlib>
 #include <map>
+#include <utility>
+
 
 using namespace std;
 
@@ -896,18 +898,44 @@ void c11_sample_10()
 
 
 
-
-
-
-
-
-// don't need write pf_test_1( T&&, U&&), pf_test_1(const T&, U&&), pf_test_1(T&&, const U&), pf_test_1(const T&, const U&)
-template<typename T, typename U>
-std::pair<T,U> pf_test_1( T&& t, U&& u )
+void pf_test_f1( int&& a )
 {
-    return std::make_pair<T,U>( std::forward<T>(t), std::forward<U>(u) );
-    //return std::make_pair( t, u ); // this will cause copy constructor twice. (the second in make_pair)
+    cout << a << endl;
+    a += 111;
+    cout << a << endl;
 }
+
+
+
+template<typename T>
+void pf_test_f2( T&& a )
+{
+    cout << a << endl;
+    a += 111;
+    cout << a << endl;
+}
+
+
+
+void c11_sample_11()
+{
+    pf_test_f1(10);
+    
+    int a = 55;
+    //pf_test_f1(a); // build fail.
+    pf_test_f2(20);
+    pf_test_f2( int{30} );
+    pf_test_f2(a);
+    cout << a << endl;
+    
+    
+}
+
+
+
+
+
+
 
 
 class G
@@ -980,13 +1008,14 @@ std::unique_ptr<AA> pf_test_4( int&& u )
 
 
 
+
 std::unique_ptr<AA> pf_test_5( const int& u )
 {
     return std::unique_ptr<AA>( new AA( std::forward<const int&>(u) ) );
 }
 
 
-void c11_sample_11()
+void c11_sample_12()
 {
     
     // official sample
@@ -1003,43 +1032,202 @@ void c11_sample_11()
     auto p3 = pf_test_4(3);
     //auto p4 = pf_test_4(i); // compile fail.
     auto p5 = pf_test_5(i);
+}
+
+
+
+
+
+class PF1
+{
+public:
+    PF1(){ cout << "PF1 constructor" << endl; }
+    PF1( const PF1& pf ){ cout << "PF1 copy constructor" << endl; }
+    PF1( PF1&& pf ){ cout << "PF1 move constructor" << endl; }
+};
+
+
+
+class PF2
+{
+public:
+    PF2(){ cout << "PF2 constructor" << endl; }
+    PF2( const PF2& pf ){ cout << "PF2 copy constructor" << endl; }
+    PF2( PF2&& pf ){ cout << "PF2 move constructor" << endl; }
+};
+
+
+
+
+class PF
+{
+public:
     
-    
-    //
-    std::map<string,vector<int>>  m;
-    
-    m.insert( pf_test_1<string,vector<int>>( std::string("test1"), std::vector<int>{1,2,3,4} ) );
-    
-    for( auto itr = m["test1"].begin(); itr != m["test1"].end(); ++itr )
-        cout << *itr << " " ;
+    // you don't need define four constructor.
+    // I have try for make_pair but fail.
+    template<typename T, typename U>
+    PF( T&& t, U&& u )
+    : p1(std::forward<T>(t)), p2(std::forward<U>(u))
+    {}
+
+    PF1    p1;
+    PF2    p2;
+};
+
+
+
+
+
+void c11_sample_13()
+{
+    PF  pf = { PF1(), PF2() };
     cout << endl;
     
-    std::string         s{"test2"};
-    std::vector<int>    v = { 99, 98 };
-    /*m.insert( pf_test_1<string,vector<int> >( s, vector<int>{1,2,3} ) );
+    PF1 pf1;
+    PF2 pf2;
+    PF pf_a{ pf1, pf2 };
+    cout << endl;
     
-    for( auto itr = m["test2"].begin(); itr != m["test2"].end(); ++itr )
-        cout << *itr << " " ;
-    cout << endl;*/
+    PF pf_b( PF1(), pf2 );
+}
+
+
+
+
+
+class SWAP_TEST
+{
+public:
+    SWAP_TEST() : ptr(nullptr), size(0) { cout << "constructor" << endl; }
+    
+    ~SWAP_TEST()
+    {
+        delete [] ptr;
+        ptr = NULL;
+        cout << "destsructor" << endl;
+    }
+    
+    SWAP_TEST( int s )
+    {
+        size = s;
+        ptr = new int[size];
+        ptr[0] = 332;
+        cout << "constructor s = " << s << endl;
+        
+        //int *ptr2 = new int[s];
+        //ptr2[0] = 4252;
+    }
+    
+    SWAP_TEST( const SWAP_TEST& st )
+    {
+        size = st.size;
+        ptr = new int[size];
+        memcpy( ptr, st.ptr, sizeof(int) * size );
+        
+        cout << "copy constructor" << endl;
+    }
+    
+    SWAP_TEST( SWAP_TEST&& st )
+        : size(0), ptr(nullptr)
+    {
+        // need set size, ptr as 0, null.
+        std::swap( size, st.size );
+        std::swap( ptr, st.ptr );
+        
+        cout << "move constructor " << endl;
+        cout << size << " " << st.size << endl;
+        cout << ptr << " " << st.ptr << endl;
+    }
     
     
-    
+
+    SWAP_TEST& operator = ( const SWAP_TEST& st )
+    {
 #if 0
-    std::map<string,G> m2;
+        cout << ptr << " " << st.ptr << endl;
+        
+        delete [] ptr;
+        ptr = NULL;
+        
+        cout << st.ptr[0];  // crash if called by a = a
+        
+        size = st.size;
+        ptr = new int[size];
+        memcpy( ptr, st.ptr, sizeof(int) * size );
+#else
+        if( this != &st )
+        {
+            cout << ptr << " " << st.ptr << endl;
+            
+            delete [] ptr;
+            ptr = NULL;
+            
+            cout << st.ptr[0];  // crash if called by a = a
+            
+            size = st.size;
+            ptr = new int[size];
+            memcpy( ptr, st.ptr, sizeof(int) * size );
+        }
+#endif
+        return  *this;
+    }
     
-    m2.insert( pf_test_1<string&&,G&&>(string("1"),G(100)) );
-    cout << m2["1"].data << endl;
     
-    m2.insert( pf_test_1( str, G(200) ) );
-    cout << m2["test2"].data << endl;
+    /*SWAP_TEST& operator = ( SWAP_TEST&& st )
+    {
+        // need set size, ptr as 0, null.
+        std::swap( size, st.size );
+        std::swap( ptr, st.ptr );
+        
+        cout << ptr[0] << endl;
+        
+        return *this;
+    }*/
     
-    G g(10);
-    m2.insert( pf_test_1(string("2"),g) );
-    cout << m2["2"].data << endl;
+    /*template<typename T>
+    void operator = ( T&& st ) // note: SWAP_TEST& operator = ( SWAP_TEST& st ), not const.
+    {
+        std::swap( size, st.size );
+        std::swap( ptr, st.ptr );
+        
+        cout << ptr[0] << endl;
+        
+        //return *this;
+    }*/
     
-    str = "1234";
-    g.data = 20;
-    m2.insert( pf_test_1(str,g) ); // note: call move constructor twice by std::pair.
-    cout << m2["1234"].data << endl;
+    
+    
+    int size;
+    int *ptr;
+};
+
+
+
+void c11_swap()
+{
+    while(1)
+    {
+    //SWAP_TEST a = std::move( SWAP_TEST(1000000) );
+    SWAP_TEST a(1000000);
+    cout << a.size << endl;
+    }
+#if 0
+    a = a;
+    cout << a.ptr << endl;
+    
+    SWAP_TEST b = SWAP_TEST(30);
+    b.ptr[0] = 99999;
+    
+    a = b;
+    cout << "a.ptr = " << a.ptr[0] << endl;
+    
+    
+    int count = 0;
+    while(1)
+    {
+        cout << count << endl; // test for mem leak.
+        a = SWAP_TEST(100000);
+        cout << a.ptr[0] << endl;
+    }
 #endif
 }

@@ -27,8 +27,19 @@ int main(int argc, const char * argv[])
     //c11_sample_8();
     //c11_sample_9();
     //c11_sample_10();
-    c11_sample_11();
+    //c11_sample_11();
+    //c11_sample_12();
+    //c11_sample_13();
+    //c11_swap();
     
+    while(1)
+    {
+        int *ptr = new int[1000000];
+        ptr[0] = 342425;
+        std::cout << ptr[0] << std::endl;
+        delete [] ptr;
+        ptr = NULL;
+    }
     
     return 0;
 }
