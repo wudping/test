@@ -49,6 +49,8 @@
  通常operator = 會有 *this != rhs 的問題
  可以用std::swap
  
+ copy and swap idiom
+ 
  */
 
 

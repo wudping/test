@@ -1141,7 +1141,7 @@ public:
     
     
 
-    SWAP_TEST& operator = ( const SWAP_TEST& st )
+    /*SWAP_TEST& operator = ( const SWAP_TEST& st )
     {
 #if 0
         cout << ptr << " " << st.ptr << endl;
@@ -1170,19 +1170,31 @@ public:
         }
 #endif
         return  *this;
-    }
+    }*/
     
     
-    /*SWAP_TEST& operator = ( SWAP_TEST&& st )
+    SWAP_TEST& operator = ( SWAP_TEST&& st )
     {
+        
+#if 0
         // need set size, ptr as 0, null.
         std::swap( size, st.size );
         std::swap( ptr, st.ptr );
+#else
+        if( this != &st ) // allowed &st. it will crash without this if sentences.
+        {
+            ptr = st.ptr;
+            size = st.size;
+        
+            st.size = 0;
+            st.ptr = nullptr;
+        }
+#endif
         
         cout << ptr[0] << endl;
         
         return *this;
-    }*/
+    }
     
     /*template<typename T>
     void operator = ( T&& st ) // note: SWAP_TEST& operator = ( SWAP_TEST& st ), not const.
@@ -1205,29 +1217,23 @@ public:
 
 void c11_swap()
 {
-    while(1)
-    {
-    //SWAP_TEST a = std::move( SWAP_TEST(1000000) );
-    SWAP_TEST a(1000000);
+
+    SWAP_TEST a = std::move( SWAP_TEST(1000000) );
     cout << a.size << endl;
-    }
-#if 0
-    a = a;
+
+
+    a = std::move(a);
     cout << a.ptr << endl;
     
     SWAP_TEST b = SWAP_TEST(30);
     b.ptr[0] = 99999;
     
-    a = b;
-    cout << "a.ptr = " << a.ptr[0] << endl;
+    //a = b;
+    //cout << "a.ptr = " << a.ptr[0] << endl;
     
     
-    int count = 0;
-    while(1)
-    {
-        cout << count << endl; // test for mem leak.
-        a = SWAP_TEST(100000);
-        cout << a.ptr[0] << endl;
-    }
-#endif
+    a = SWAP_TEST(100000);
+    cout << a.ptr[0] << endl;
+
+
 }
