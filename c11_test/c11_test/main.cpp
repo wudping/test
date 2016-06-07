@@ -28,9 +28,9 @@ int main(int argc, const char * argv[])
     //c11_sample_9();
     //c11_sample_10();
     //c11_sample_11();
-    //c11_sample_12();
+    c11_sample_12();
     //c11_sample_13();
-    c11_swap();
+    //c11_swap();
     
 
     

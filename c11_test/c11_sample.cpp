@@ -28,7 +28,7 @@ void c11_sample_1()
     cout << "a3 = " << a3 << endl;
     
     //
-    double a4[5]{1.1, 2.2, 3.3, 4.4, 5.5};
+    double a4[5]{1.1, 2.2, 3.3, 4.4};
     for( i = 0; i < 5; i++ )
         cout << a4[i] << " ";
     cout << endl;
@@ -127,6 +127,11 @@ void c11_sample_2()
     cout << ptr[0] << " " << ptr[1] << " " << ptr[2] << endl;
     delete [] ptr;
 
+    //
+    std::vector<int> *v_ptr = new std::vector<int>{-1,-2,-3,4,5};
+    for( int i = 0; i < 5; i++ )
+        cout << (*v_ptr)[i] << " ";
+    cout << endl;
 }
 
 
@@ -160,6 +165,8 @@ public:
     {
         cout << "A(int,int)" << endl;
     }
+    
+    A( const A& aa ) : A() {}
     
     // initializer list
     A( std::initializer_list<int> list )
@@ -226,7 +233,7 @@ void c11_sample_3()
     cout << a4.data1 << " " << a4.data2 << endl;
     
     A a5( {-1,2,0,4} );
-    //A a5{ {-1,2,0,4} }; the same as above.v
+    //A a5{ {-1,2,0,4} }; 可以使用大括號
     for( i = 0; i < 4; i++ )
         cout << a5.ptr[i] << " ";
     cout << endl;
@@ -283,7 +290,8 @@ void c11_sample_4()
     
     int *p3 = new int[3]{1,2,3};
     cout << *(p3 + 1) << endl; // p3+1 is right value, *(p3+1) is left value.
-    
+    //&(p3+1); // compile fail.
+    //int *pp = &(*(p3+1));
     
     
     // right value
@@ -294,6 +302,9 @@ void c11_sample_4()
     cout << j << " " << c << endl;
     //int *q = &(j + 1); // compile error. j+1 is right value.
     
+    
+    
+    //
     std::string str = "abc";
     std::string& str2 = str; // left value reference
     //std::string& str3 = "abc";  // compile fail. right value can't be referenced.
@@ -362,6 +373,7 @@ public:
     }
     
     C1( const C1& _c )
+        : C1() // c++11 only
     {
         cout << "C1(const C1&), addr = " << this << endl;
         size = _c.size;
@@ -411,7 +423,8 @@ C1 C1_test_1( C1 c )
 }
 
 
-//  Move constructor and move assignment operator
+// traditional rule of three.
+// 姑且不論寫法上有一些瑕疵
 void c11_sample_5()
 {
     C1 c1(10000);
@@ -497,7 +510,7 @@ public:
     C2& operator = ( const C2& _c )
     //C2& operator = ( C2& _c )
     {
-        cout << "C2 operator = , addr = " << this << " , _c addr = " << &_c << endl;
+        cout << "copy operator = , addr = " << this << " , _c addr = " << &_c << endl;
         
         if( size != 0 && ptr != NULL )
             delete [] ptr;
@@ -549,7 +562,7 @@ void c11_sample_7()
     c2b = C2_test_1( c2a );
     cout << c2b.ptr[0] << endl;
     
-    c2b = c2a; // call traditional operator =
+    c2b = c2a; // call copy assignment =
     cout << c2b.ptr[0] << endl;
     
     c2b = C2(321);  // call move assignment.
@@ -577,6 +590,7 @@ public:
     {
         //cout << "D1(int), addr = " << this << endl;
         // note: need check _s > 0
+        cout << "constructor" << endl;
         size = _s;
         ptr = new int[size];
         for( int i = 0; i < size; i++ )
@@ -612,7 +626,9 @@ public:
     
     D1 operator + ( const D1& _d )
     {
-        return D1( _d.size + size );
+        D1 tmp( _d.size + size );
+        //return D1( _d.size + size );
+        return tmp;
     }
 
     
@@ -638,6 +654,7 @@ D1 move_ct_test_1( D1 d )
 
 D1 move_ct_test_2( D1& d )
 {
+#if 1
     if( d.size > 0 )
         d.ptr[0]   =   9876;
     else
@@ -646,7 +663,16 @@ D1 move_ct_test_2( D1& d )
         d.ptr = new int[d.size];
     }
     
-    return  d;
+    return  d; // run copy constructor in D1 dd4 = move_ct_test_2(d2);
+#else
+    D1 tmp;
+    tmp.size = d.size;
+    tmp.ptr = new int[tmp.size];
+    for( int i = 0; i < tmp.size; i++ )
+        tmp.ptr[i] = d.ptr[i];
+    
+    return tmp; // run constructor in D1 dd4 = move_ct_test_2(d2);
+#endif
 }
 
 
@@ -677,27 +703,30 @@ D1 move_ct_test_4( int n )
 void c11_sample_8()
 {
     D1 d1(1000), d2(1500);
+#if 0
     D1 d3( d1 + d2 );
     cout << d1.ptr[0] << " " << d2.ptr[0] << " " << d3.ptr[0] << endl;
     /*
         this code will not run into move constructor.
         I gauss the reason is RVO.
      */
+    D1 d4( move(d1+d2) );
+    cout << d4.ptr[0] << endl;
     
     D1 dd1 = std::move(d1);
     cout << d1.size << " " << dd1.size << endl;
-    
+
     D1 dd2 = move_ct_test_1(d2);
     cout << dd2.ptr[0] << endl;
     
     D1 dd3 = move_ct_test_1( D1(234) );
     cout << dd3.size << endl;
     
-    D1 dd4 = move_ct_test_2(d2); // run copy constructor. it will run copy constructor if we use D1& move_ct_test_2( D1& d )
+    D1 dd4 = move_ct_test_2(d2); // see comment move_ct_test_2
     cout << dd4.ptr[0] << endl;
     
     //D1 dd5 = move_ct_test_2( D(111) ); // compile fail.
-    
+#endif
     //D1 dd6 = move_ct_test_3( d2 ); // compile fail.
     D1 dd7 = move_ct_test_3( D1(323) );
     cout << dd7.ptr[0] << endl;
@@ -984,6 +1013,14 @@ private:
 };
 
 
+// U derive by u.
+template<class T, class U>
+std::unique_ptr<T> pf_test_1( U&& u )
+{
+    return std::unique_ptr<T>( new T(u) );
+}
+
+
 
 // U derive by u.
 template<class T, class U>
@@ -993,6 +1030,12 @@ std::unique_ptr<T> pf_test_2( U&& u )
     return std::unique_ptr<T>( new T( std::forward<U>(u) ) );
     //return std::unique_ptr<T>( new T(u) );  // cause all run lvalue.   ( u = 3; T(u); u is lvalue. )
 }
+
+
+
+
+
+
 
 template<class T, class... U>
 std::unique_ptr<T> pf_test_3( U&&... u )
@@ -1017,6 +1060,7 @@ std::unique_ptr<AA> pf_test_5( const int& u )
 
 void c11_sample_12()
 {
+    auto p = pf_test_1<AA>(10);
     
     // official sample
     auto p1 = pf_test_2<AA>(2); // rvalue

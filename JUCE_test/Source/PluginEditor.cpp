@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 #include "PluginEditor_mac.h"
-
+#include "juce_KeyPressMappingSet.h"
 
 
 //==============================================================================
@@ -27,7 +27,9 @@ Juce_testAudioProcessorEditor::Juce_testAudioProcessorEditor (Juce_testAudioProc
     
     LOG;
     
-    Timer::startTimer( 3000 );
+    
+    //Timer::startTimer( 3000 );
+    
 }
 
 Juce_testAudioProcessorEditor::~Juce_testAudioProcessorEditor()

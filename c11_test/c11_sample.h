@@ -50,6 +50,19 @@
  可以用std::swap
  
  copy and swap idiom
+ want speed? pass by value
+ 
+ 
+ class MyClass {
+ public:
+ MyClass(MyString str) :
+ str(std::move(str)) { // copy-and-swap/move here
+ }
+ private:
+ MyString const str; // Still const!
+ };
+ 
+ 
  
  */
 
