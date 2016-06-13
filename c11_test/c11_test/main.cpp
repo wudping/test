@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
 {
     //c11_sample_1();
     //c11_sample_2();
-    //c11_sample_3();
+    c11_sample_3();
     //c11_sample_4();
     //c11_sample_5();
     //c11_sample_6();
@@ -28,7 +28,7 @@ int main(int argc, const char * argv[])
     //c11_sample_9();
     //c11_sample_10();
     //c11_sample_11();
-    c11_sample_12();
+    //c11_sample_12();
     //c11_sample_13();
     //c11_swap();
     

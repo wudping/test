@@ -126,12 +126,15 @@ void c11_sample_2()
     auto ptr = new int[3]{100, 99, 98};
     cout << ptr[0] << " " << ptr[1] << " " << ptr[2] << endl;
     delete [] ptr;
-
+    
     //
     std::vector<int> *v_ptr = new std::vector<int>{-1,-2,-3,4,5};
     for( int i = 0; i < 5; i++ )
         cout << (*v_ptr)[i] << " ";
     cout << endl;
+    
+    auto aaa = 1000;
+    cout << aaa << endl;
 }
 
 
@@ -212,6 +215,11 @@ public:
 };
 
 
+
+
+
+
+
 void c11_sample_3()
 {
     int i;
@@ -237,6 +245,10 @@ void c11_sample_3()
     for( i = 0; i < 4; i++ )
         cout << a5.ptr[i] << " ";
     cout << endl;
+
+    //int aaa = nullptr; // compile fail.
+    int bbb = NULL;
+    cout << bbb << endl;
     
 }
 
