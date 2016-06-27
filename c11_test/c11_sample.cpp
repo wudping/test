@@ -11,6 +11,7 @@
 using namespace std;
 
 
+// initialized, and
 void c11_sample_1()
 {
     int     i;
@@ -89,6 +90,8 @@ void print_deque( T a )
 }
 
 
+
+//
 void c11_sample_2()
 {
     //
@@ -172,6 +175,7 @@ public:
     A( const A& aa ) : A() {}
     
     // initializer list
+#if 1
     A( std::initializer_list<int> list )
     {
         cout << "A(initializer_list<int>" << endl;
@@ -196,6 +200,7 @@ public:
             // for( int i = 0, auto itr = list.begin(); ... ) will compile error
             ptr[count++]  =   *itr;
     }
+#endif
 
     
     ~A()
@@ -231,7 +236,6 @@ void c11_sample_3()
     
     A a2(3,4);   // c99
     cout << a2.data1 << " " << a2.data2 << " " << a2.b3.d << endl;
-    //cout << a2.ptr[0] << endl;  // crash
     
     // if use initialer_list in constructor, a3 and a4 will run A(initializer_list), not A(int,int)
     A a3{ 2, 3 };
@@ -247,7 +251,7 @@ void c11_sample_3()
     cout << endl;
 
     //int aaa = nullptr; // compile fail.
-    int bbb = NULL;
+    int bbb = NULL; // this is difference between nullptr and NULL.
     cout << bbb << endl;
     
 }
@@ -302,9 +306,7 @@ void c11_sample_4()
     
     int *p3 = new int[3]{1,2,3};
     cout << *(p3 + 1) << endl; // p3+1 is right value, *(p3+1) is left value.
-    //&(p3+1); // compile fail.
-    //int *pp = &(*(p3+1));
-    
+    //int **pp = &(p3+1); // compile fail. because p3+1 is right value.
     
     // right value
     //int *p3 = &right_value(); // compile fail. it is right value.
@@ -312,9 +314,7 @@ void c11_sample_4()
     int a = 3, b = 4; // a, b is left value.
     int c = a + b; // a+b is right value.
     cout << j << " " << c << endl;
-    //int *q = &(j + 1); // compile error. j+1 is right value.
-    
-    
+    //int *q = &(j+1); // compile error. j+1 is right value.
     
     //
     std::string str = "abc";
@@ -447,13 +447,6 @@ void c11_sample_5()
     cout << "c2 addr = " << &c2 << endl;
     c2 = C1_test_1( c1 );
     cout << c2.ptr[0] << endl;
-    
-    /* 
-        copy operator = 
-        make more one copying, but the copy source will destructor soon.
-        can we boost in this operator?
-     */
-   
 }
 
 
@@ -512,6 +505,17 @@ public:
             ptr[i]  =   _c.ptr[i];
     }
     
+    C2( C2&& _c )
+    {
+        cout << "move constructor\n";
+        
+        ptr     =   _c.ptr;
+        size    =   _c.size;
+        
+        _c.ptr  =   nullptr;
+        _c.size =   0;
+    }
+    
     
     ~C2()
     {
@@ -556,6 +560,8 @@ public:
 };
 
 
+
+
 C2 C2_test_1( C2 c )
 {
     //cout << "c addr = " << &c << endl;
@@ -565,20 +571,23 @@ C2 C2_test_1( C2 c )
 
 void c11_sample_7()
 {
-    C2 c2a(10000);
-    cout << c2a.ptr[0] << endl;
+    //C2 &c2 = C2(1000);
+    C2 c2a = C2(1000);
+    C2 c2b = std::move( C2(2000) );
+    cout << c2b.ptr[0] << endl;
     //cout << "c2a addr = " << &c2a << endl;
     
-    C2 c2b;
+    C2 c2c = C2_test_1( c2a ); // run constructor
+    C2 c2d = std::move( C2_test_1(c2b) );
     //cout << "c2b addr = " << &c2b << endl;
-    c2b = C2_test_1( c2a );
-    cout << c2b.ptr[0] << endl;
+    c2c = C2_test_1( c2a );
+    cout << c2c.ptr[0] << endl;
     
-    c2b = c2a; // call copy assignment =
-    cout << c2b.ptr[0] << endl;
+    c2c = c2a; // call copy assignment =
+    cout << c2c.ptr[0] << endl;
     
-    c2b = C2(321);  // call move assignment.
-    cout << c2b.size << endl;
+    c2c = C2(321);  // call move assignment.
+    cout << c2c.size << endl;
     
     /*
      if we don't define move assign, it will call assign.
@@ -715,9 +724,11 @@ D1 move_ct_test_4( int n )
 void c11_sample_8()
 {
     D1 d1(1000), d2(1500);
-#if 0
-    D1 d3( d1 + d2 );
+
+    //D1 d3( d1 + d2 );
+    D1 d3( std::move(d1+d2) );
     cout << d1.ptr[0] << " " << d2.ptr[0] << " " << d3.ptr[0] << endl;
+
     /*
         this code will not run into move constructor.
         I gauss the reason is RVO.
@@ -738,7 +749,7 @@ void c11_sample_8()
     cout << dd4.ptr[0] << endl;
     
     //D1 dd5 = move_ct_test_2( D(111) ); // compile fail.
-#endif
+
     //D1 dd6 = move_ct_test_3( d2 ); // compile fail.
     D1 dd7 = move_ct_test_3( D1(323) );
     cout << dd7.ptr[0] << endl;
