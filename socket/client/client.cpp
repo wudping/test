@@ -1,4 +1,4 @@
-// client.cpp : ©w¸q¥D±±¥xÀ³¥Îµ{¦¡ªº¶i¤JÂI¡C
+ï»¿// client.cpp : å®šç¾©ä¸»æ§å°æ‡‰ç”¨ç¨‹å¼çš„é€²å…¥é»ã€‚
 //
 
 #include "stdafx.h"
@@ -22,26 +22,26 @@ void	g( int thr_id )
 	string confirm;
     char message[200];
  
-    //¶}©l Winsock-DLL
+    //é–‹å§‹ Winsock-DLL
     int r;
     WSAData wsaData;
     WORD DLLVersion;
     DLLVersion = MAKEWORD(2,1);
     r = WSAStartup(DLLVersion, &wsaData);
  
-    //«Å§iµ¹ socket ¨Ï¥Îªº sockadder_in µ²ºc
+    //å®£å‘Šçµ¦ socket ä½¿ç”¨çš„ sockadder_in çµæ§‹
     SOCKADDR_IN addr;
  
     int addlen = sizeof(addr);
  
-    //³]©w socket
+    //è¨­å®š socket
     SOCKET sConnect;
  
     //AF_INET: internet-family
     //SOCKET_STREAM: connection-oriented socket
     sConnect = socket(AF_INET, SOCK_STREAM, NULL);
  
-    //³]©w addr ¸ê®Æ
+    //è¨­å®š addr è³‡æ–™
     //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     addr.sin_addr.s_addr = inet_addr("192.168.2.66");
 
@@ -78,7 +78,7 @@ void	g( int thr_id )
 			recv( sConnect, sendbuf, (int)strlen(sendbuf), 0 ) ;
 			cout << sendbuf << endl;
  
-            //±µ¦¬ server ºİªº°T®§
+            //æ¥æ”¶ server ç«¯çš„è¨Šæ¯
             //ZeroMemory(message, 200);
             //r = recv(sConnect, message, sizeof(message), 0);
             //cout << message << endl;
@@ -98,9 +98,43 @@ void	f(int thr_id )
 }
 
 
+
+int UDP_send()
+{
+	WORD socketVersion = MAKEWORD(2,2);
+	WSADATA wsaData; 
+	if(WSAStartup(socketVersion, &wsaData) != 0)
+	    return 0;
+	SOCKET skt = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	
+	sockaddr_in sin;
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(13578);
+	sin.sin_addr.S_un.S_addr = inet_addr("220.135.38.106");
+	int len = sizeof(sin);
+	
+	char * sendData = "send message to you.";
+	sendto(skt, sendData, strlen(sendData), 0, (sockaddr *)&sin, len);
+	
+	char recvData[255];     
+	int ret = recvfrom(skt, recvData, 255, 0, (sockaddr *)&sin, &len);
+	if(ret > 0)
+	{
+	    recvData[ret] = 0x00;
+	    printf(recvData);
+	}
+	
+	closesocket(skt);
+	WSACleanup();
+	return 0;
+}
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	g(0);
+	UDP_send();
+	//g(0);
 
 	/*boost::thread	thr[1];
 

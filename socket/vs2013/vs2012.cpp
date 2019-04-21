@@ -1,4 +1,4 @@
-// vs2012.cpp : ©w¸q¥D±±¥xÀ³¥Îµ{¦¡ªº¶i¤JÂI¡C
+ï»¿// vs2012.cpp : å®šç¾©ä¸»æ§å°æ‡‰ç”¨ç¨‹å¼çš„é€²å…¥é»ã€‚
 //
 
 #include "stdafx.h"
@@ -33,37 +33,37 @@ int f()
     int r;
     WSAData wsaData;
     WORD DLLVSERION;
-    DLLVSERION = MAKEWORD(2,1);//Winsocket-DLL ª©¥»
+    DLLVSERION = MAKEWORD(2,1);//Winsocket-DLL ç‰ˆæœ¬
  
-    //¥Î WSAStartup ¶}©l Winsocket-DLL
+    //ç”¨ WSAStartup é–‹å§‹ Winsocket-DLL
     r = WSAStartup(DLLVSERION, &wsaData);
  
-    //«Å§i socket ¦ì§}¸ê°T(¤£¦Pªº³q°T,¦³¤£¦Pªº¦ì§}¸ê°T,©Ò¥H·|¦³¤£¦Pªº¸ê®Æµ²ºc¦s©ñ³o¨Ç¦ì§}¸ê°T)
+    //å®£å‘Š socket ä½å€è³‡è¨Š(ä¸åŒçš„é€šè¨Š,æœ‰ä¸åŒçš„ä½å€è³‡è¨Š,æ‰€ä»¥æœƒæœ‰ä¸åŒçš„è³‡æ–™çµæ§‹å­˜æ”¾é€™äº›ä½å€è³‡è¨Š)
     SOCKADDR_IN addr;
     int addrlen = sizeof(addr);
  
-    //«Ø¥ß socket
+    //å»ºç«‹ socket
     SOCKET sListen; //listening for an incoming connection
     SOCKET sConnect; //operating if a connection was found
 	//
 	SOCKET sc[10];
 	int sc_count = 0;
  
-    //AF_INET¡Gªí¥Ü«Ø¥ßªº socket Äİ©ó internet family
-    //SOCK_STREAM¡Gªí¥Ü«Ø¥ßªº socket ¬O connection-oriented socket
+    //AF_INETï¼šè¡¨ç¤ºå»ºç«‹çš„ socket å±¬æ–¼ internet family
+    //SOCK_STREAMï¼šè¡¨ç¤ºå»ºç«‹çš„ socket æ˜¯ connection-oriented socket
     sConnect = socket(AF_INET, SOCK_STREAM, NULL);
  
-    //³]©w¦ì§}¸ê°Tªº¸ê®Æ
+    //è¨­å®šä½å€è³‡è¨Šçš„è³‡æ–™
     addr.sin_addr.s_addr = inet_addr("192.168.2.66");
     addr.sin_family = AF_INET;
     addr.sin_port = htons(1234);
  
-    //³]©w Listen
+    //è¨­å®š Listen
     sListen = socket(AF_INET, SOCK_STREAM, NULL);
     bind(sListen, (SOCKADDR*)&addr, sizeof(addr));
     listen(sListen, SOMAXCONN);//SOMAXCONN: listening without any limit
  
-    //µ¥«İ³s½u
+    //ç­‰å¾…é€£ç·š
     SOCKADDR_IN clinetAddr;
 	SOCKADDR_IN c1,c2;
     while(true)
@@ -75,12 +75,12 @@ int f()
             //cout << "a connection was found" << endl;
             //printf("server: got connection from %s\n", inet_ntoa(addr.sin_addr));
  
-            //¶Ç°e°T®§µ¹ client ºİ
+            //å‚³é€è¨Šæ¯çµ¦ client ç«¯
             //char *sendbuf = "sending data test";
             //send(sConnect, sendbuf, (int)strlen(sendbuf), 0);
 
 
-			//±µ¦¬ client ºİªº°T®§
+			//æ¥æ”¶ client ç«¯çš„è¨Šæ¯
             ZeroMemory(message, 200);
             r = recv(sConnect, message, sizeof(message), 0);
             cout << message << endl;
@@ -106,9 +106,60 @@ int f()
 }
 
 
+
+int UDP_send()
+{
+	WSADATA wsaData;
+    WORD sockVersion = MAKEWORD(2,2);
+    if( WSAStartup( sockVersion, &wsaData) != 0 )
+        return 0;
+
+    SOCKET skt = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP ); 
+    if(skt == INVALID_SOCKET)
+    {
+        printf("err = %d socket error !", WSAGetLastError() );
+        return 0;
+    }
+
+    sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(13578);
+    addr.sin_addr.S_un.S_addr = INADDR_ANY;
+    if( bind( skt, (sockaddr *)&addr, sizeof(addr)) == SOCKET_ERROR)
+    {
+        printf("err = %d bind error !", WSAGetLastError() );
+        closesocket(skt);
+        return 0;
+    }
+    
+    sockaddr_in remoteAddr;
+    int nAddrLen = sizeof(remoteAddr);
+    for( int i = 0; i < 10; i++ )
+    {
+        char recvData[255];  
+        int ret = recvfrom( skt, recvData, 255, 0, (sockaddr *)&remoteAddr, &nAddrLen);
+        if (ret > 0)
+        {
+            recvData[ret] = 0x00;
+            printf( "recvï¼š%s \n", inet_ntoa(remoteAddr.sin_addr));
+            printf( "%s", recvData );            
+        }
+
+        char sendData[100];
+		sprintf( sendData, "I get your data. send back. time = %d", i);
+        sendto( skt, sendData, strlen(sendData), 0, (sockaddr *)&remoteAddr, nAddrLen);    
+    }
+    closesocket(skt); 
+    WSACleanup();
+    return 0;
+}
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	f();
+	UDP_send();
+	//f();
 
 	system("PAUSE");
 	return 0;
