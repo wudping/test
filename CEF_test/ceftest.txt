@@ -1,1 +1,0 @@
-install_name_tool -change "@executable_path/Chromium Embedded Framework" "@executable_path/../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" ./CEF_test/Debug/CEF_test.app/Contents/MacOS/CEF_test
