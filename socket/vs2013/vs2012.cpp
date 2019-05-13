@@ -223,6 +223,89 @@ int TCP_server()
 
 
 
+int TCP_server_nonblocking()
+{
+	WSADATA WSAData = { 0 };
+	WORD sockVersion = MAKEWORD(2,2);
+    if (WSAStartup(sockVersion, &WSAData) != 0)
+    {
+        // Tell the user that we could not find a usable WinSock DLL.
+        if (LOBYTE(WSAData.wVersion) != LOBYTE(sockVersion) ||
+            HIBYTE(WSAData.wVersion) != HIBYTE(sockVersion))
+            printf("Incorrect winsock version\n");
+
+        WSACleanup();
+        return 0;
+    }
+
+	int nFd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (nFd == INVALID_SOCKET)
+	{
+		printf("Error creating socket, ec: %d\n", WSAGetLastError());
+		return false;
+	}
+
+	unsigned long nNonBlocking = 1;
+	if (ioctlsocket(nFd, FIONBIO, &nNonBlocking) == SOCKET_ERROR)
+	{
+		printf("Unable to set nonblocking mode, ec:%d\n", WSAGetLastError());
+		closesocket(nFd);
+		return false;
+	}
+
+	sockaddr_in oAddr;
+
+	oAddr.sin_family = AF_INET;
+	oAddr.sin_addr.s_addr = INADDR_ANY;
+	oAddr.sin_port = htons((u_short)SERVER_PORT);
+
+	if (bind(nFd,(sockaddr*)&oAddr, sizeof(oAddr)) != 0)
+	{
+		printf("Error binding socket, ec: %d\n", WSAGetLastError());
+		closesocket(nFd);
+		return false;
+	}
+
+	if (listen(nFd, MAXCONN) != 0)
+	{
+		printf("Error listening, ec: %d\n", WSAGetLastError());
+		closesocket(nFd);
+		return false;
+	}
+
+	int nCliFd = 0;
+	fd_set oRSet;
+	int nReady, nCliLen, nError;
+
+	while (true)
+	{
+		FD_ZERO(&oRSet);
+		FD_SET(nFd, &oRSet);
+		nReady = select(FD_SETSIZE, &oRSet, NULL, NULL, NULL);
+
+		if (FD_ISSET(nFd, &oRSet))
+		{
+			nCliLen = sizeof(oCliAddr);
+			nCliFd = accept(m_nFd, (struct sockaddr*)&oCliAddr, &nCliLen);
+
+			if (nCliFd < 0)
+			{
+				nError = WSAGetLastError();
+				if (nError == WSAEWOULDBLOCK)
+					continue;
+				else
+				{
+					printf("Accept error, ec:%d\n", nError);
+					return false;
+				}
+			}
+		}
+		::Sleep(100);
+}
+}
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	TCP_server();
