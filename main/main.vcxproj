@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DFD9CF3E-4C0D-4239-9A49-BE186FFB4C0F}</ProjectGuid>
+    <ProjectGuid>{56F37F89-52D8-4F54-9148-744A4BE64C8A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>linklist</RootNamespace>
+    <RootNamespace>main</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -83,7 +83,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="linklist.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
