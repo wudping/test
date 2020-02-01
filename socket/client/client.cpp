@@ -6,11 +6,17 @@
 #pragma comment(lib, "Ws2_32.lib")
  
 #include <WinSock2.h>
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <cassert>
 
-#include <boost/thread.hpp>
+#include <ws2tcpip.h>
+#include <windows.h>
+
 
 
 using namespace std;
@@ -20,7 +26,7 @@ using namespace std;
 void	g( int thr_id )
 {
 	string confirm;
-    char message[200];
+    //char message[200];
  
     //開始 Winsock-DLL
     int r;
@@ -150,7 +156,7 @@ int UDP_send()
 	sockaddr_in sin;
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(13578);
-	sin.sin_addr.S_un.S_addr = inet_addr("220.135.38.106");
+	sin.sin_addr.S_un.S_addr = inet_addr("192.168.2.145");
 	int len = sizeof(sin);
 	
 	char * sendData = "send message to you.";
@@ -170,10 +176,65 @@ int UDP_send()
 }
 
 
+#define MAX_LENGTH 1024
+int UDP_recv()
+{
+	WORD socketVersion = MAKEWORD(2,2);
+	WSADATA wsaData; 
+	if(WSAStartup(socketVersion, &wsaData) != 0)
+	    return 0;
+	SOCKET skt = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	
+	sockaddr_in sin;
+	//bzero( (char*)&sin, sizeof(sin) );
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(13578);
+	sin.sin_addr.s_addr = htonl(INADDR_ANY);
+
+	// node: need handle bind fail error.
+	int ret = bind( skt, (struct sockaddr *)&sin, sizeof(sin) );
+	assert( ret > 0 );
+    
+	sockaddr_in client_addr;
+	int length, nbytes;
+	while (true) 
+	{
+		char buf[1000] = "";
+		nbytes = recvfrom( skt, buf, MAX_LENGTH, 0, (sockaddr*)&client_addr, (socklen_t *)&length );
+
+		if( nbytes < 0 )
+		{
+			printf( "." );
+			Sleep(1000);
+			continue;
+		}
+
+        printf("Received data form %s : %d\n", inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
+        printf("%s\n", buf);
+
+		char buf2[1000] = "send back.";
+        sendto( skt, buf2, strlen(buf2), 0, (sockaddr*)&client_addr, length );
+
+    }
+	
+	closesocket(skt);
+	WSACleanup();
+	return 0;
+}
+
+
+
+
+
+
+
+
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	TCP_client();
+	//TCP_client();
+	UDP_recv();
 	//UDP_send();
 	//g(0);
 
