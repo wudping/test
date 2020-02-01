@@ -16,7 +16,7 @@ LinkList::~LinkList()
 	Node	*node	=	head;
 
 	while( node != nullptr )
-	{
+	{ 
 		node	=	node->next;
 		delete	head;
 		head	=	node;
@@ -26,7 +26,30 @@ LinkList::~LinkList()
 	
 
 LinkList::LinkList(const LinkList& list)
-{}
+{
+	_size = list._size;
+
+	Node *node		=	list.head;
+	Node *node2		=	nullptr;
+	Node *pre_node	=	nullptr;
+
+	while( node != nullptr )
+	{
+		node2	=	new Node;
+		if( pre_node != nullptr )
+			pre_node->next	=	node2;
+		if( head == nullptr )
+			head	=	node2;
+
+		node2->data		=	node->data;
+		node2->next		=	nullptr;
+
+		node		=	node->next;
+		pre_node	=	node2;
+	}
+}
+   
+
 
 
 int		LinkList::size() const

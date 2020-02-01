@@ -29,8 +29,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	list.print();
 
-
+	
 	cout << "size = " << list.size() << endl;
+
+	LinkList	list2(list);
+	list2.print();
 
 	system("PAUSE");
 	return 0;
