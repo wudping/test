@@ -7,7 +7,8 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	tcp_server();
+	//tcp_server();
+	tcp_server_multi_thread();
 
 	system("PAUSE");
 	return 0;

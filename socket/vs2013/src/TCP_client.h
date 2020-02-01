@@ -3,6 +3,7 @@
 
 
 int tcp_client();
+int tcp_client_multi_thread();
 
 
 #endif
